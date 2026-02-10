@@ -46,12 +46,13 @@
             padding: 20px;
             text-align: left;
             border-bottom: 4px solid #6BAF47;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
         }
 
         .header-content {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px;
+            flex: 1;
         }
 
         .logo-area {
@@ -74,6 +75,157 @@
             opacity: 0.95;
             font-weight: 400;
             line-height: 1.5;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .mode-badge {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .settings-button {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .settings-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #C89968;
+            margin-bottom: 16px;
+        }
+
+        .modal-description {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #E8D9CC;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: #6BAF47;
+            box-shadow: 0 0 0 3px rgba(107, 175, 71, 0.1);
+        }
+
+        .security-note {
+            background-color: #FFF9F0;
+            border-left: 4px solid #D4A574;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-button-primary {
+            background-color: #6BAF47;
+            color: white;
+        }
+
+        .modal-button-primary:hover {
+            background-color: #5a9a3e;
+        }
+
+        .modal-button-primary:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .modal-button-secondary {
+            background-color: #E8D9CC;
+            color: #333;
+        }
+
+        .modal-button-secondary:hover {
+            background-color: #D4C4B0;
         }
 
         .chat-area {
@@ -206,7 +358,7 @@
             padding: 12px 16px;
             border-radius: 16px;
             word-wrap: break-word;
-            line-height: 1.5;
+            line-height: 1.6;
             font-size: 15px;
         }
 
@@ -235,6 +387,40 @@
 
         .message.user .message-bubble strong {
             color: #FFF5E6;
+        }
+
+        .related-questions {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .related-question-button {
+            background-color: rgba(107, 175, 71, 0.1);
+            border: 1px solid #6BAF47;
+            color: #6BAF47;
+            padding: 6px 10px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .related-question-button:hover {
+            background-color: #6BAF47;
+            color: white;
+        }
+
+        .ai-mode-notice {
+            background-color: rgba(107, 175, 71, 0.1);
+            border-left: 4px solid #6BAF47;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 8px;
         }
 
         .input-area {
@@ -296,6 +482,12 @@
             transform: scale(0.95);
         }
 
+        .send-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .typing-indicator {
             display: flex;
             gap: 4px;
@@ -331,46 +523,22 @@
             }
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #999;
-        }
-
-        .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
-
-        .quick-category-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .quick-button {
-            background-color: rgba(107, 175, 71, 0.1);
-            border: 1px solid #6BAF47;
-            color: #6BAF47;
-            padding: 8px 12px;
-            border-radius: 20px;
-            cursor: pointer;
+        .error-message {
+            background-color: #FFE8E8;
+            border-left: 4px solid #D4756F;
+            padding: 12px;
+            border-radius: 4px;
+            color: #A85050;
             font-size: 13px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .quick-button:hover {
-            background-color: #6BAF47;
-            color: white;
-        }
-
-        .no-match-message {
-            margin-bottom: 16px;
+            margin-top: 8px;
         }
 
         @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
             .header h1 {
                 font-size: 22px;
             }
@@ -393,6 +561,10 @@
 
             .input-area {
                 padding: 12px 16px;
+            }
+
+            .modal {
+                padding: 24px;
             }
         }
 
@@ -418,6 +590,12 @@
                 height: 36px;
                 font-size: 16px;
             }
+
+            .settings-button {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
         }
     </style>
 </head>
@@ -427,257 +605,132 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        const KNOWLEDGE_BASE = {
-            diseaseInfo: {
-                keywords: ['신경섬유종증', 'nf1', 'nf', '신경섬유종', '질환', '증상', '진단', '질병', '카페오레', '신경', '종양', '피부'],
-                title: '질환 정보',
-                content: `신경섬유종증(NF1)에 대해 알려드리겠습니다.
+        // Smart Keyword Mode: Q&A Knowledge Base
+        const SMART_QA_BASE = [
+            // Disease Info - NF1 Basics
+            { q: "신경섬유종증이 뭐예요", a: "신경섬유종증은 신경과 피부, 여러 장기에 영향을 주는 유전 질환입니다. 신경피부증후군 중 가장 흔하며, 약 90% 이상이 NF1 유형입니다.", keywords: ["신경섬유종증", "nf1", "질환", "뭐", "뭔가", "정의"], category: "질환정보", relatedQ: ["NF1은 유전인가요?", "카페오레반점이란 뭐예요?"] },
+            { q: "NF1은 유전인가요", a: "네, NF1은 상염색체 우성 유전질환입니다. 환자의 약 50%는 부모로부터 유전되고, 나머지 50%는 새로운 돌연변이로 발생합니다.", keywords: ["유전", "상속", "부모", "물려받다", "유전되다"], category: "질환정보", relatedQ: ["부모와 대화하는 방법", "자녀에게 어떻게 알릴까요?"] },
+            { q: "카페오레반점이란 뭐예요", a: "카페오레반점은 연한 갈색 반점으로, 출생 시 또는 생후 수개월 내에 생깁니다. 직경 5mm 이상인 반점이 6개 이상이면 NF1 진단의 중요한 기준입니다.", keywords: ["카페오레", "반점", "갈색", "피부", "색소"], category: "질환정보", relatedQ: ["다른 피부 증상이 있나요?", "겨드랑이 주근깨가 뭐예요?"] },
+            { q: "겨드랑이나 사타구니에 주근깨가 생기나요", a: "네, 겨드랑이와 서혜부(사타구니) 부위의 주근깨도 NF1 진단의 중요한 단서입니다.", keywords: ["주근깨", "겨드랑이", "서혜부", "사타구니", "피부"], category: "질환정보", relatedQ: ["카페오레반점이란 뭐예요?", "신경섬유종이란 뭐예요?"] },
+            { q: "신경섬유종이란 뭐예요", a: "신경섬유종은 말초신경에 생기는 양성 종양입니다. 피부신경섬유종이 가장 흔하고, 악성화 가능성이 있는 총상신경섬유종도 있습니다. 최근에는 셀루메티닙이라는 표적치료제로 치료합니다.", keywords: ["신경섬유종", "종양", "양성", "악성", "셀루메티닙"], category: "질환정보", relatedQ: ["시신경교종이 뭐예요?", "치료 방법이 있나요?"] },
+            { q: "시신경교종이 뭐예요", a: "시신경교종은 시신경에 발생하는 종양으로, 소아기에 나타날 수 있습니다. 시력 저하, 시야 결손 등을 유발할 수 있으며 MRI로 진단합니다.", keywords: ["시신경교종", "안과", "시력", "시신경", "눈", "교종"], category: "질환정보", relatedQ: ["안과적 증상이 뭐예요?", "Lisch결절이란?"] },
+            { q: "Lisch결절이란 뭐예요", a: "Lisch 결절은 눈의 홍채에 나타나는 갈색 결절로, NF1 환자의 약 70% 이상에서 관찰됩니다. 시력에는 영향을 주지 않습니다.", keywords: ["lisch", "결절", "홍채", "눈", "안구"], category: "질환정보", relatedQ: ["안과적 증상이 뭐예요?", "시신경교종이 뭐예요?"] },
+            { q: "NF1이 있으면 인지/학습에 영향이 있나요", a: "네, NF1 환자의 약 50% 이상이 ADHD나 학습장애를 경험합니다. 언어력, 실행기능, 작업기억에 어려움이 있을 수 있습니다. 조기 평가와 중재가 중요합니다.", keywords: ["학습", "인지", "adhd", "학습장애", "주의력", "기억"], category: "질환정보", relatedQ: ["학교 선생님과는 어떻게 소통할까요?", "아이가 학교에서 도움을 받을 수 있나요?"] },
+            { q: "골격 문제가 생기나요", a: "네, 척추측만증, 장골 이형성, 두개골 이상 등의 골격계 기형이 나타날 수 있습니다. 정형외과적 개입이 필요한 경우도 있습니다.", keywords: ["골격", "척추", "뼈", "기형", "정형외과"], category: "질환정보", relatedQ: ["운동이나 체육은 괜찮나요?", "척추측만증이 뭐예요?"] },
+            { q: "고혈압이나 다른 내과적 문제가 있나요", a: "네, 고혈압이 발생할 수 있으며 신장 혈관의 협착이나 갈색세포종과 연관될 수 있습니다. 정기적인 의료 모니터링이 중요합니다.", keywords: ["고혈압", "내과", "혈관", "갈색세포종"], category: "질환정보", relatedQ: ["정기 검진은 어떻게 하나요?", "치료 방법이 있나요?"] },
 
-**신경섬유종증이란?**
-신경섬유종증은 신경과 피부, 그리고 기타 다양한 장기에 영향을 주는 유전 질환으로, 신경피부증후군(neurocutaneous syndrome) 중 가장 흔한 질환입니다. 대표적인 유형은 신경섬유종증 제1형(NF1)이며 전체의 약 90% 이상을 차지합니다.
+            // Parent Guide
+            { q: "자녀에게 언제 NF에 대해 말해야 하나요", a: "8세가 되면 아이들은 자신의 상태에 대해 어느 정도 이미 알고 있습니다. 개인차가 있지만, 조기에 솔직하게 설명하는 것이 신뢰와 독립성을 높입니다.", keywords: ["자녀", "아이", "언제", "말하기", "알려야"], category: "부모가이드", relatedQ: ["어떻게 대화하면 좋을까요?", "아이 나이별로는 어떻게 달라지나요?"] },
+            { q: "아이에게 NF를 어떻게 설명하면 좋을까요", a: "차분하고 인내심 있게, 서두르지 말고, 개인적인 공간에서, 솔직하게 대화하세요. 넓은 범위에서 시작하되 대화가 한 번에 끝날 필요는 없습니다. 항상 부모의 지지를 강조하세요.", keywords: ["설명", "대화", "어떻게", "말하기", "아이"], category: "부모가이드", relatedQ: ["자녀에게 언제 말해야 하나요?", "아이 나이별로는 어떻게 달라지나요?"] },
+            { q: "아이 나이별로는 어떻게 달라지나요", a: "출생~2세: 간단한 연결 / 3~7세: 사실 중심적 설명 / 8~11세: 앞으로 나타날 특징 설명 / 12~19세: 독립성, 정체성 형성에 초점을 맞추세요.", keywords: ["나이", "발달", "단계", "나이별", "어린이"], category: "부모가이드", relatedQ: ["아이에게 NF를 어떻게 설명하면 좋을까요?"] },
+            { q: "대화 준비는 어떻게 하나요", a: "먼저 신경섬유종증에 대해 충분히 알아보세요. 자신의 감정을 정리하고, 누가 함께할지, 어디에서, 언제 대화할지 미리 계획하세요.", keywords: ["준비", "계획", "대화", "감정", "불안"], category: "부모가이드", relatedQ: ["아이에게 NF를 어떻게 설명하면 좋을까요?"] },
+            { q: "내 자녀도 NF가 있다면 어떻게 설명하나요", a: "가족의 공통 특징을 설명하고 유전에 대해 이해하도록 도와주세요. '우리 가족은 이런 특징이 있다'는 식으로 긍정적으로 접근하세요.", keywords: ["부모", "가족", "공통", "유전", "특징"], category: "부모가이드", relatedQ: ["자녀에게 언제 NF에 대해 말해야 하나요?"] },
 
-NF1은 상염색체 우성 유전질환으로, 환자의 약 50%는 부모로부터 유전되고, 나머지 50%는 새로운 자발 돌연변이에 의해 발생합니다. NF1은 전신에 영향을 미치는 다기관 질환으로, 피부 병변, 말초 신경계 종양, 중추신경계 이상, 골격계 기형, 인지 및 학습장애 등이 함께 관찰됩니다.
+            // School
+            { q: "학교 선생님과는 어떻게 소통할까요", a: "아이의 NF 상태, 특별히 주의할 점, 진료 일정을 미리 알려주세요. ADHD나 학습장애가 있다면 개별화 교육계획(IEP)에 대해 논의하세요.", keywords: ["학교", "선생님", "소통", "교육", "교직원"], category: "학교안내", relatedQ: ["학교에서 어떤 도움을 받을 수 있나요?", "피부 증상으로 놀림을 받으면?"] },
+            { q: "학교에서 어떤 도움을 받을 수 있나요", a: "학습보조 도구, 좌석 배치 조정(시력 고려), 체육활동 맞춤화, 휴식 시간 제공, 정서적 지지 등이 가능합니다. 학교와 미리 계획을 세우세요.", keywords: ["도움", "지원", "학교", "학습", "편의"], category: "학교안내", relatedQ: ["학교 선생님과는 어떻게 소통할까요?", "ADHD가 있다면 어떻게 하나요?"] },
+            { q: "ADHD가 있다면 어떻게 하나요", a: "개별화 교육계획(IEP) 수립을 요청하세요. 학습보조 도구, 집중력 유지를 위한 환경 조정, 특수교직원 연계 등이 효과적입니다.", keywords: ["adhd", "주의력", "집중", "학습장애", "지원"], category: "학교안내", relatedQ: ["학교에서 어떤 도움을 받을 수 있나요?", "읽기나 쓰기에 어려움이 있으면?"] },
+            { q: "읽기나 쓰기에 어려움이 있으면", a: "학습장애 평가를 받아 특수교육 서비스를 신청하세요. 음성 교과서, 타이핑 도구, 추가 시간 할당 등이 도움이 됩니다.", keywords: ["읽기", "쓰기", "학습장애", "언어", "이해"], category: "학교안내", relatedQ: ["ADHD가 있다면 어떻게 하나요?"] },
+            { q: "시력이 안 좋으면 학교에서 뭘 해주나요", a: "칠판이 잘 보이는 좌석으로 배치하고, 시각자료를 확대하거나 반복적으로 제시해주세요. 정기적인 시력검사로 변화를 모니터링하세요.", keywords: ["시력", "시각", "눈", "칠판", "교실"], category: "학교안내", relatedQ: ["정기 검진은 어떻게 하나요?", "학교 선생님과는 어떻게 소통할까요?"] },
+            { q: "피부 증상으로 놀림을 받으면", a: "즉시 선생님에게 알리세요. 학교에서는 모든 학생의 외모를 존중하고 차별을 금지하는 교육을 해야 합니다. 따돌림 예방 교육이 중요합니다.", keywords: ["놀림", "차별", "외모", "신경섬유종", "색소"], category: "학교안내", relatedQ: ["학교폭력 신고는 어떻게 하나요?", "자존감을 높이려면?"] },
+            { q: "운동이나 체육은 괜찮나요", a: "척추측만증이나 근력 약화가 있으면 맞춤형 체육이 필요합니다. 선생님과 상담하여 적절한 활동을 선택하거나 대체활동을 제시하세요.", keywords: ["운동", "체육", "활동", "신체", "운동능력"], category: "학교안내", relatedQ: ["골격 문제가 생기나요?", "피로가 있으면?"] },
+            { q: "피로가 있으면 학교에서 어떻게 하나요", a: "수업 중 휴식이 필요하면 선생님에게 알리세요. 통증이나 피로가 심해지면 즉시 보호자와 연락하는 체계를 만드세요.", keywords: ["피로", "통증", "휴식", "에너지", "피곤"], category: "학교안내", relatedQ: ["자녀에게 언제 NF에 대해 말해야 하나요?"] },
+            { q: "자존감을 높이려면", a: "아이가 구체적인 작은 성공을 자주 경험하도록 격려하세요. 실패보다 성공을 강조하고, 외모가 아닌 능력과 성격을 칭찬하세요.", keywords: ["자존감", "성공", "자신감", "격려", "칭찬"], category: "학교안내", relatedQ: ["피부 증상으로 놀림을 받으면", "정서적 지지가 필요하면?"] },
+            { q: "정서적 지지가 필요하면", a: "학교 상담 선생님이나 전문 심리상담을 받아보세요. 또래 환우회나 온라인 커뮤니티도 도움이 됩니다.", keywords: ["정서", "지지", "상담", "심리", "감정"], category: "학교안내", relatedQ: ["자존감을 높이려면", "학교폭력 신고는 어떻게 하나요?"] },
 
-**피부 증상**
-카페오레반점(café-au-lait macules)은 연한 갈색의 반점으로, 대개 출생 시 또는 생후 수개월 내에 발생하며, 성장하면서 수와 크기가 증가합니다. 직경이 5mm 이상인 반점이 6개 이상 있으면 NF1의 주요 진단 기준 중 하나로 간주됩니다.
+            // Bullying
+            { q: "학교폭력이 의심되면 어떻게 하나요", a: "즉시 학교 선생님이나 상담 선생님에게 알리세요. 필요하면 117 학교폭력 신고전화나 청소년 상담센터(1388)에 신고하세요.", keywords: ["폭력", "신고", "괴롭힘", "따돌림", "차별"], category: "학교폭력", relatedQ: ["어떤 징후를 주의해야 하나요?", "신고 번호는 뭐예요?"] },
+            { q: "어떤 징후를 주의해야 하나요", a: "표정이 어둡고 학교 가기를 싫어함, 두통/복통/수면 문제, 성적 급락, 휴대폰 사용을 두려워함 등이 신호입니다.", keywords: ["징후", "증상", "신호", "변화", "관찰"], category: "학교폭력", relatedQ: ["학교폭력이 의심되면 어떻게 하나요?"] },
+            { q: "신고 번호는 뭐예요", a: "117 학교폭력(24시간), 1388 청소년상담센터(24시간), 경찰 182, 푸른나무재단 1588-9128, 탁틴내일 02-3141-6191", keywords: ["신고", "번호", "전화", "연락처", "상담"], category: "학교폭력", relatedQ: ["어떤 징후를 주의해야 하나요?", "피해 회복은 어떻게 하나요?"] },
+            { q: "피해 회복은 어떻게 하나요", a: "'내 잘못이 아니다'를 반복 확인하고, 작은 성공 경험을 쌓게 하세요. 신뢰할 수 있는 사람과의 관계, 신체활동, 감정 표현을 격려하세요.", keywords: ["회복", "치유", "피해", "극복", "지지"], category: "학교폭력", relatedQ: ["신고 번호는 뭐예요?"] },
+            { q: "외모 때문에 놀림을 받으면", a: "즉시 부모와 선생님에게 알리세요. 이는 학교폭력입니다. 117에 신고하고, 학교는 따돌림 예방 교육을 강화해야 합니다.", keywords: ["놀림", "외모", "괴롭힘", "차별", "신경섬유종"], category: "학교폭력", relatedQ: ["학교폭력이 의심되면 어떻게 하나요?", "신고 번호는 뭐예요?"] },
 
-또한 겨드랑이(axillary) 및 서혜부(inguinal) 부위의 주근깨(freckling)도 진단의 중요한 단서입니다.
+            // Welfare
+            { q: "의료비 지원이 있나요", a: "네, 산정특례(본인부담 10% 경감), 희귀질환자 의료비지원, 재난적의료비지원 등이 있습니다. 국민건강보험공단(1577-1000)에 문의하세요.", keywords: ["의료비", "지원", "비용", "경감", "보험"], category: "복지혜택", relatedQ: ["산정특례가 뭐예요?", "장애 등록 혜택이 있나요?"] },
+            { q: "산정특례가 뭐예요", a: "희귀질환으로 본인부담률을 10%로 경감해주는 제도입니다. 확진일로부터 30일 이내 신청 시 소급 적용되며, 5년마다 재신청합니다.", keywords: ["산정특례", "경감", "부담", "보험", "신청"], category: "복지혜택", relatedQ: ["의료비 지원이 있나요?", "본인부담상한제는?"] },
+            { q: "본인부담상한제는", a: "1년간 지출한 본인부담액이 소득 기준 상한액을 넘으면, 넘는 부분을 환급해주는 제도입니다.", keywords: ["상한제", "환급", "기준", "소득"], category: "복지혜택", relatedQ: ["산정특례가 뭐예요?", "의료비 지원이 있나요?"] },
+            { q: "희귀질환자 의료비 지원은 뭐예요", a: "산정특례 등록 환자 중 소득/재산 기준을 만족하면 진료비, 약제비, 보조기기, 간병비 등을 지원합니다. 관할 보건소에 문의하세요.", keywords: ["희귀질환", "의료비", "지원", "보건소"], category: "복지혜택", relatedQ: ["의료비 지원이 있나요?", "어떤 것들을 지원하나요?"] },
+            { q: "어떤 것들을 지원하나요", a: "진료비, 약제비, 보조기기, 특수식이, 간병비 등이 지원됩니다. 더 자세히는 관할 보건소에 문의하세요.", keywords: ["지원", "항목", "보조", "기기", "식이"], category: "복지혜택", relatedQ: ["희귀질환자 의료비 지원은 뭐예요?"] },
+            { q: "장애 등록 혜택이 있나요", a: "고속도로통행료 할인, 통신요금 감면, 교통요금 감면, 세금감면, 보조기기 교부, 활동지원 등을 받을 수 있습니다.", keywords: ["장애", "등록", "혜택", "할인", "감면"], category: "복지혜택", relatedQ: ["의료비 지원이 있나요?", "어떻게 등록하나요?"] },
+            { q: "어떻게 등록하나요", a: "후유장애가 남은 경우 보건소나 병원에서 장애 진단을 받은 후 장애인 등록을 신청하세요.", keywords: ["등록", "신청", "장애", "진단", "절차"], category: "복지혜택", relatedQ: ["장애 등록 혜택이 있나요?"] },
 
-**안과적 증상**
-NF1 환자의 약 70% 이상에서 Lisch 결절이라는 안과적 소견이 관찰됩니다. 또한 소아기에는 시신경교종(optic pathway glioma)이 발생할 수 있으며 시력 저하, 시야 결손, 안구 돌출 등을 유발할 수 있습니다. MRI를 통해 진단합니다.
+            // Contacts
+            { q: "질문이 있으면 어디에 문의하나요", a: "질병관리청 희귀질환 헬프라인(helpline.kdca.go.kr), 국민건강보험공단(1577-1000), 보건복지상담센터(129)에 문의할 수 있습니다.", keywords: ["문의", "연락", "헬프라인", "센터", "정보"], category: "연락처", relatedQ: ["학교폭력 신고는?", "긴급 상황에는?"] },
+            { q: "학교폭력 신고는", a: "117 학교폭력(24시간), 청소년상담센터 1388(24시간), 경찰 182, 푸른나무 1588-9128", keywords: ["신고", "폭력", "긴급", "번호"], category: "연락처", relatedQ: ["질문이 있으면 어디에 문의하나요?"] },
+            { q: "긴급 상황에는", a: "경찰 182, 여성긴급전화 1366(24시간), 학교폭력 117(24시간)에 신고하세요.", keywords: ["긴급", "신고", "경찰", "상황"], category: "연락처", relatedQ: ["학교폭력 신고는?", "법률 도움은?"] },
+            { q: "법률 도움은", a: "경찰 민원포털 182, 대한법률구조공단 132에 문의하세요.", keywords: ["법률", "도움", "권리", "구조"], category: "연락처", relatedQ: ["긴급 상황에는?"] }
+        ];
 
-**신경섬유종**
-신경섬유종(neurofibroma)은 말초신경에 발생하는 양성 종양으로, 가장 흔한 형태는 피부신경섬유종(cutaneous neurofibroma)입니다. 보다 심각한 형태는 총상신경섬유종(plexiform neurofibroma)으로, 악성화 가능성이 있어 주의가 필요합니다. 최근에는 표적 치료제로 셀루메티닙(selumetinib)이 도입되어, 총상신경섬유종의 크기를 줄이는 데 효과를 보이고 있습니다.
+        // Full knowledge base for AI Mode
+        const FULL_KNOWLEDGE_BASE = `[질환 정보] 신경섬유종증(NF1)은 신경과 피부, 여러 장기에 영향을 주는 유전 질환으로 신경피부증후군 중 가장 흔합니다. NF1은 상염색체 우성 유전이며 약 50%는 부모로부터 유전, 50%는 새로운 돌연변이입니다. 카페오레반점(연한 갈색 반점, 6개 이상 5mm이상이면 진단기준), 겨드랑이/서혜부 주근깨, Lisch결절(약 70% 관찰), 시신경교종(시력저하 유발), 신경섬유종(양성종양, 총상신경섬유종은 악성화 가능, 셀루메티닙으로 치료), ADHD/학습장애(약 50% 이상), 척추측만증/골격기형, 고혈압(신장혈관협착/갈색세포종 관련)이 증상입니다.
 
-**신경 및 인지 기능 이상**
-NF1 환자의 약 50% 이상이 주의력결핍 및 학습장애가 나타납니다. 언어력, 실행기능, 작업 기억 등에 어려움이 있으며, 일부는 자폐 스펙트럼 장애 양상이나 정서 불안 등을 동반하기도 합니다. 조기 평가와 중재가 필요합니다.
+[부모 가이드] 8세 이상이면 아이는 자신의 상태를 알고 있습니다. 자녀에게 알리는 것이 신뢰/독립성/적응을 높입니다. 충분히 알아보고 감정을 정리한 후 차분하고 인내심 있게, 개인적 공간에서, 솔직하게, 긍정적으로 대화하세요. 출생~2세는 간단한 연결, 3~7세는 사실 중심적, 8~11세는 앞으로 나타날 특징, 12~19세는 정체성 형성에 초점을 맞추세요.
 
-**골격계 이상**
-척추측만증, 장골 이형성, 두개골 이상과 같은 다양한 골격계 기형이 나타날 수 있습니다. 척추측만증은 조기에 진행할 수 있으며, 정형외과적 개입이 필요한 경우도 있습니다.
+[학교생활] 학교 선생님과 미리 NF 상태, 주의점, 진료일정을 소통하세요. ADHD/학습장애시 IEP 요청, 학습보조도구, 좌석배치 조정(시력), 체육활동 맞춤화, 휴식제공, 정서적 지지가 필요합니다. 외모 기반 따돌림 예방, 자존감 강화(작은 성공 경험), 정기 검진 연계(뇌MRI/시력/정형외과)가 중요합니다.
 
-**기타 증상**
-고혈압이 발생할 수 있으며, 이는 신장 혈관의 협착이나 갈색세포종(pheochromocytoma)과 연관될 수 있습니다. 내분비 이상으로 성조숙증이 나타나기도 합니다.`
-            },
-            parentGuide: {
-                keywords: ['부모', '아이', '자녀', '대화', '가족', '아이와', '어떻게', '말하기', '아이에게'],
-                title: '부모 가이드',
-                content: `신경섬유종증이 있는 자녀와의 대화 및 양육에 대해 알려드리겠습니다.
+[학교폭력 신고] 신체적/언어적/정서적/경제적/사이버/외모기반 괴롭힘을 주의하세요. 표정 어두움, 학교 거부, 신체증상, 성적 저락, 휴대폰 거부감이 징후입니다. 117학교폭력, 1388청소년상담, 경찰182, 푸른나무1588-9128, 탁틴내일02-3141-6191에 신고하세요. 회복시 "내 잘못 아님" 확인, 작은 성공, 신뢰관계 유지, 감정표현, 운동, 비교금지, "회복중인사람"으로 인식하세요.
 
-**자녀에게 알려야 하는 이유**
-자녀의 진단에 대해 아이와 대화하는 것은 매우 중요합니다. 연구에 따르면, 신경섬유종증이 있는 아이들은 직접 설명을 듣지 않더라도 8세가 되면 자신의 상태에 대해 어느 정도 알고 있으며, 대부분의 아이들은 더 배우고 알고 싶어 합니다.
+[복지혜택] 산정특례(본인부담 10% 경감, 확진후 30일 이내 신청시 소급, 5년마다 재신청), 본인부담상한제(초과분 환급), 희귀질환자의료비(진료비/약제비/보조기기/간병비, 관할보건소), 재난적의료비(연 180일, 5천만원한도, 50~80%, 1577-1000), 장애등록혜택(통행료할인/통신감면/교통감면/세금감면/보조기기/활동지원)이 있습니다.
 
-이를 통해 가족 간의 관계와 신뢰를 강화하고, 자녀의 독립성을 높이며, 자녀의 불안을 줄이고, 자녀가 진단을 받아들이고 적응하는 데 도움을 줍니다.
+[연락처] 질병관리청 helpline.kdca.go.kr, 국민건강보험공단 1577-1000, 보건복지상담 129, 학교폭력 117, 청소년상담 1388, 경찰 182, 법률구조공단 132, 여성긴급 1366`;
 
-**대화 준비하기**
-먼저 신경섬유종증에 대해 충분히 알아보는 시간을 가지세요. 자신의 두려움이나 감정이 대화에 영향을 주지 않도록 차분하게 이야기할 준비를 하세요. 누가 함께할지, 어디에서 이야기할지, 언제 대화할지 미리 계획하세요.
+        // Settings Modal
+        const SettingsModal = ({ isOpen, onClose, onSetApiKey, hasApiKey, mode }) => {
+            const [apiKey, setApiKey] = useState('');
 
-**자녀에게 이야기하는 방법**
-• 차분하고 인내심 있게 이야기하세요
-• 서두르지 말고 천천히 진행하세요
-• 개인적인 공간에서 대화하세요
-• 솔직하게 이야기하세요
-• 넓은 범위에서 시작하고, 대화가 한 번에 모두 끝날 필요는 없습니다
-• 긍정적인 태도를 유지하고, 아이가 항상 부모가 지지해준다는 것을 알려주세요
+            const handleSave = () => {
+                if (apiKey.trim()) {
+                    onSetApiKey(apiKey);
+                    setApiKey('');
+                    onClose();
+                }
+            };
 
-**발달 단계별 고려사항**
+            if (!isOpen) return null;
 
-출생~2세: 간단한 연결을 할 수 있습니다. 예: "병원에 가면 의사 선생님이 내 피부에 있는 반점을 봐요."
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-title">⚙️ 설정</div>
 
-3~7세: 사실 중심적으로 생각하며, 다른 시각을 이해하는 데 어려움을 겪을 수 있습니다. 부모가 신경섬유종증이 있는 경우, 같은 질환이 있다는 것과 공통 특징을 설명해 주세요. 가족의 공통 특징을 설명하여 유전에 대해 이해할 수 있도록 도와주세요.
+                        <div className="modal-description">
+                            현재 모드: <strong>{mode === 'ai' ? '🤖 AI 모드' : '✨ 스마트 키워드 모드'}</strong>
+                        </div>
 
-8~11세: 아이가 커가면서 나타날 수 있는 신경섬유종증의 특징에 대해 미리 이야기해 주는 것이 도움이 됩니다. 아이에게 여러 특징이 조합되어 신경섬유종증이라 진단이 내려진 것임을 설명해 주세요. 사람마다 몸이 변하는 시기가 다르다는 것을 설명해 주세요.
+                        <div className="modal-description">
+                            Claude API 키를 입력하면 AI 모드로 전환됩니다. AI 모드에서는 Claude가 더 자연스럽고 맞춤형 답변을 제공합니다.
+                        </div>
 
-12~19세: 독립성이 늘어나고, 친구 관계가 다른 관계보다 중요해집니다. '상상적 관중(imaginary audience)'을 경험하며, 자신의 정체성과 자신이 누구인지 알아가기 시작합니다. 신경섬유종증이 자신의 정체성의 큰 부분으로 받아들이는 아이도 있고, 그렇지 않은 아이도 있습니다.
+                        <input
+                            type="password"
+                            className="modal-input"
+                            placeholder="sk-ant-... (Claude API 키)"
+                            value={apiKey}
+                            onChange={(e) => setApiKey(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && handleSave()}
+                        />
 
-**NF1 아동의 보호자에게 전하는 조언**
-자녀에게 신경섬유종증에 대해 이야기하는 데 한 가지 정답은 없습니다. 가족에게 맞는 방법을 선택하세요. 긍정적인 접근을 하고, 아이가 할 수 있는 모든 것을 볼 수 있도록 도와주세요. 아이의 상태를 자연스러운 것으로 받아들이게 하고, 신경섬유종증을 가진 사람들도 많다는 점을 알려주세요. 인터넷 검색 결과는 정확하지 않거나 가장 심한 사례만 보여줄 수 있음을 기억하세요.`
-            },
-            schoolLife: {
-                keywords: ['학교', '선생님', '교직원', '학교생활', '학습', '학급', '수업', '친구', '또래'],
-                title: '학교생활 안내',
-                content: `학교에서의 신경섬유종증 학생 지원 방법을 알려드리겠습니다.
+                        <div className="security-note">
+                            🔒 보안 정보: API 키는 메모리에만 저장되며, 페이지를 새로고침하면 삭제됩니다. 절대로 공유하지 마세요.
+                        </div>
 
-**학습 및 인지 기능 이해**
-NF1 아동의 약 절반 이상이 주의력결핍 과다행동장애(ADHD), 학습장애(LD), 실행기능 장애 등을 경험합니다. 수업 시 집중 유지가 어려우며, 언어 이해, 수학 계산, 읽기·쓰기 등의 영역에서 학업 성취가 저조할 수 있습니다. 학습보조 도구, 개별화 교육계획(IEP), 특수교직원 연계 등을 통해 학습을 지원합니다.
+                        {hasApiKey && (
+                            <div style={{ marginBottom: '16px', padding: '8px 12px', backgroundColor: '#F0F8F0', borderRadius: '4px', fontSize: '12px', color: '#4a7c3f' }}>
+                                ✓ API 키가 설정되었습니다. 새 키를 입력하면 업데이트됩니다.
+                            </div>
+                        )}
 
-**시력 저하 고려**
-시력 저하 가능성을 고려한 좌석 배치가 필요합니다. 시신경교종으로 인해 시야 결손이나 시력 저하가 있을 수 있으므로, 교실에서는 칠판이 잘 보이는 자리에 앉히고, 시각자료를 충분히 확대하거나 반복적으로 제시해주는 것이 도움이 됩니다.
-
-**피부 및 외모 변화 고려**
-피부에 생기는 신경섬유종이나 색소반점 등 외형적 특이성은 또래 집단 내에서 놀림이나 소외를 유발할 수 있습니다. 교직원은 학생 간의 관계를 주의 깊게 살피고, 외모와 무관한 가치 존중 교육을 포함하여 따돌림이나 차별이 발생하지 않도록 지도해야 합니다.
-
-**신체 활동 고려**
-운동기능 및 체육활동에 대한 맞춤 배려가 필요합니다. 척추측만증, 골격 기형, 근력 약화 등이 동반될 수 있으므로, 체육시간이나 야외활동 시 신체능력을 고려한 활동을 선택하고, 필요시 활동을 대체하거나 보조장비를 사용할 수 있도록 배려합니다.
-
-**피로와 통증**
-피로와 통증에 대한 민감한 관찰이 필요합니다. 총상신경섬유종이나 기타 병변으로 인해 통증이나 쉽게 피로해지는 증상이 있을 수 있으므로, 수업 중 자세가 불편하거나 집중력이 급격히 떨어지는 경우에는 휴식을 유도하거나 건강상태를 점검합니다.
-
-**정서적 지지**
-정서적 지지와 자기효능감 향상이 중요합니다. 자기 외모에 대한 부정적 인식, 반복되는 학습 실패, 또래관계의 어려움은 자존감 저하로 이어질 수 있습니다. 교직원은 학생이 작지만 구체적인 성취 경험을 쌓을 수 있도록 격려하고, 성공을 자주 경험할 수 있는 과제를 제시합니다.
-
-**응급상황**
-응급상황 및 건강 이상 시 신속한 연락 체계가 필요합니다. 학부모 연락처 및 병원 정보를 명확히 확보하고, 간헐적인 통증, 두통, 시력 이상 등 증상이 나타날 경우 즉시 보호자와 연락해 적절한 대응을 합니다.
-
-**가정 관리**
-가정 내 정기적인 진료나 추적관찰은 중요합니다. NF1 아동은 뇌 MRI, 시력검사, 정형외과 진료 등 정기적인 병원 방문이 필요하므로, 보호자는 교직원과 소통하여 진료 일정으로 인한 결석 시 학습 공백이 최소화 되도록 해야 합니다. 숙제 부담 완화, 생활 지도 계획, 자존감 향상, 가정 내 정서적 지지도 중요합니다.`
-            },
-            schoolBullying: {
-                keywords: ['괴롭힘', '폭력', '따돌림', '신고', '차별', '놀림', '학교폭력', '괴롭', '학폭'],
-                title: '학교폭력 대처',
-                content: `신경섬유종증 학생이 경험할 수 있는 학교폭력 예방 및 대처 방법을 알려드리겠습니다.
-
-**학교폭력 유형**
-신경섬유종증 학생이 경험할 수 있는 폭력에는 다음과 같은 형태가 있습니다:
-• 신체적 폭력
-• 경제적 폭력
-• 정서적 폭력
-• 언어적 폭력
-• 사이버 폭력
-• 외모 기반 괴롭힘(카페오레 반점, 종양, 의료기기 등 눈에 보이는 신경섬유종증 증상을 가진 아동과 청소년을 대상으로 하는 행위)
-
-**부모가 주의해야 할 학교폭력 징후**
-
-가정에서의 징후:
-• 표정이 어둡고 평소보다 기운이 없다
-• 학교 가는 것을 싫어하거나 두려워한다
-• 신체적 증상(두통, 복통, 수면 문제) 발생
-
-학교에서의 징후:
-• 모든 활동에서 소외되거나 배제된다
-• 성적이 급격히 떨어진다
-
-사이버폭력 피해 징후:
-• 휴대폰이나 컴퓨터 사용을 두려워한다
-
-**학교폭력 신고절차와 상담 전화번호**
-
-긴급 신고:
-• 117 학교폭력 신고전화 (24시간 365일 상담 및 신고)
-
-전문 상담 서비스:
-• 탁틴내일: 02-3141-6191 (아동, 청소년 성폭력 상담소)
-• 청소년 상담센터: 1388 (24시간 365일)
-• 푸른 나무재단: 1588-9128
-• 여성긴급전화: 1366 (24시간 365일)
-
-법률 지원:
-• 경찰 민원 포털: 182
-• 대한법률구조공단: 132
-
-**가족과 함께 하기**
-
-피해자 회복을 위해 다음과 같은 방법들이 도움이 됩니다:
-
-"내 잘못이 아니다"를 반복해서 확인하기
-아이가 자신을 탓하지 않도록 지속적으로 확인해주세요.
-
-작은 성공 경험 쌓기
-아이가 자신감을 회복할 수 있도록 작은 성공들을 자주 경험하게 하세요.
-
-안전한 사람과의 관계 유지
-신뢰할 수 있는 사람들과의 관계를 지속하도록 격려하세요.
-
-말로 표현하기
-감정을 말로 표현할 수 있도록 대화의 기회를 만드세요.
-
-몸을 움직이는 활동 활용
-운동이나 신체활동을 통해 스트레스를 해소하도록 격려하세요.
-
-비교하지 않기
-다른 아이들과 비교하지 마세요.
-
-"피해자" 말고 "회복 중인 사람"으로 인식하기
-아이가 피해자 정체성에서 벗어날 수 있도록 도와주세요.`
-            },
-            welfare: {
-                keywords: ['복지', '지원', '의료비', '장애', '등록', '혜택', '혜택', '보조금', '비용'],
-                title: '복지 혜택',
-                content: `신경섬유종증 환자가 받을 수 있는 다양한 복지 혜택을 알려드리겠습니다.
-
-**산정특례 제도**
-희귀·중증난치성질환으로 치료받는 환자의 본인부담률을 10%로 경감해주는 제도입니다.
-• 문의: 국민건강보험공단 1577-1000
-• 확진일로부터 30일 이내 신청 시 확진일부터 소급 적용
-• 5년마다 재신청 필요
-
-**본인부담상한 제도**
-1년간 환자가 지출한 급여본인부담액이 소득수준에 따라 정해진 본인부담 상한액을 넘는 경우, 넘는 금액을 전액 환자에게 돌려주는 제도입니다.
-
-**희귀질환자 의료비지원사업**
-산정특례 등록 질환 중 1,272개 질환을 진단받은 자로, 소득 및 재산 기준을 만족하는 자에게 다음을 지원합니다:
-• 진료비
-• 약제비
-• 보조기기 구입비
-• 특수식이 구입비
-• 간병비
-주민등록 관할 보건소로 문의하세요.
-
-**재난적의료비지원사업**
-과도한 의료비 지출로 경제적 어려움을 겪는 가구에 의료비 일부를 지원합니다.
-• 연간 180일 이내, 5천만원 한도 내에서 50~80% 지원
-• 문의: 국민건강보험공단 1577-1000
-
-**장애 등록 및 혜택**
-희귀질환으로 인해 후유장애가 남게 되었다면 장애인 등록이 가능합니다. 등록 시 다음과 같은 혜택을 받을 수 있습니다:
-• 고속도로통행료 할인
-• 통신요금 감면
-• 교통요금 감면
-• 세금감면
-• 보조기기 교부
-• 장애인 활동지원
-
-**기타 복지제도**
-• 긴급복지지원사업
-• 민간 의료비지원사업
-• 저소득층 생계비 지원제도
-• 국민연금 내 장애연금
-• 보조기기 지원
-• 지역 장애인 보건의료센터
-• 노인장기요양보험제도
-• 장애인 활동지원사업
-• 가사간병 방문 지원사업
-• 방문건강관리사업
-• 돌봄 SOS센터사업
-• 교통약자 이동지원
-• 119 안심콜 서비스
-• 희귀질환자 쉼터`
-            },
-            contacts: {
-                keywords: ['연락처', '전화', '연락', '문의', '도움', '센터', '지원', '핫라인'],
-                title: '도움 연락처',
-                content: `신경섬유종증 관련 도움을 받을 수 있는 연락처를 정리해드렸습니다.
-
-**의료 및 질환 정보**
-• 질병관리청 희귀질환 헬프라인: https://helpline.kdca.go.kr
-• 국민건강보험공단: 1577-1000
-• 보건복지상담센터: 129
-
-**학교폭력 신고 및 상담**
-• 117 학교폭력 신고전화: 117 (24시간 365일)
-  - 학교폭력 신고 및 상담
-
-**아동 및 청소년 관련 상담**
-• 탁틴내일 (아동, 청소년 성폭력 상담소): 02-3141-6191
-• 청소년 상담센터: 1388 (24시간 365일)
-  - 청소년 문제에 대한 상담
-
-**법률 및 권리 보호**
-• 경찰 민원 포털: 182
-• 대한법률구조공단: 132
-  - 경제적 어려움으로 인한 법률 문제 지원
-
-**폭력 및 응급 상황**
-• 여성긴급전화: 1366 (24시간 365일)
-  - 모든 형태의 폭력 피해자 지원
-
-**학교폭력 전문 기관**
-• 푸른 나무재단: 1588-9128
-  - 학교폭력 예방 및 피해 회복 지원
-
-**환우회**
-• END NF 신경섬유종증 환우회
-  - 환자 및 가족들 간의 정보 공유 및 상호 지원`
-            }
+                        <div className="modal-buttons">
+                            <button className="modal-button modal-button-secondary" onClick={onClose}>
+                                취소
+                            </button>
+                            <button className="modal-button modal-button-primary" onClick={handleSave} disabled={!apiKey.trim()}>
+                                저장
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
         };
 
         const ChatBot = () => {
@@ -685,7 +738,12 @@ NF1 아동의 약 절반 이상이 주의력결핍 과다행동장애(ADHD), 학
             const [inputValue, setInputValue] = useState('');
             const [isLoading, setIsLoading] = useState(false);
             const [showWelcome, setShowWelcome] = useState(true);
+            const [apiKey, setApiKey] = useState(null);
+            const [showSettings, setShowSettings] = useState(false);
+            const [apiError, setApiError] = useState('');
             const messagesEndRef = useRef(null);
+
+            const mode = apiKey ? 'ai' : 'keyword';
 
             const scrollToBottom = () => {
                 messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -695,17 +753,107 @@ NF1 아동의 약 절반 이상이 주의력결핍 과다행동장애(ADHD), 학
                 scrollToBottom();
             }, [messages, isLoading]);
 
-            const findMatchingCategory = (input) => {
-                const lowerInput = input.toLowerCase();
-                
-                for (const [key, category] of Object.entries(KNOWLEDGE_BASE)) {
-                    for (const keyword of category.keywords) {
+            const findRelevantAnswers = (userInput) => {
+                const lowerInput = userInput.toLowerCase();
+                const scores = SMART_QA_BASE.map(entry => {
+                    let score = 0;
+                    for (const keyword of entry.keywords) {
                         if (lowerInput.includes(keyword)) {
-                            return { key, category };
+                            score += keyword.length;
                         }
                     }
+                    return { ...entry, score };
+                }).filter(entry => entry.score > 0).sort((a, b) => b.score - a.score);
+
+                return scores.slice(0, 3);
+            };
+
+            const formatBotMessage = (answers) => {
+                if (answers.length === 0) {
+                    return {
+                        text: '죄송합니다. 해당 질문에 대한 정보를 찾지 못했습니다. 다른 방식으로 질문해주시거나 아래의 주제 중 하나를 선택해주세요.',
+                        showCategories: true
+                    };
                 }
-                return null;
+
+                const mainAnswer = answers[0];
+                let response = mainAnswer.a;
+
+                if (mainAnswer.relatedQ && mainAnswer.relatedQ.length > 0) {
+                    response += '\n\n[관련 질문]';
+                }
+
+                return {
+                    text: response,
+                    relatedQuestions: mainAnswer.relatedQ || [],
+                    showCategories: false
+                };
+            };
+
+            const handleSmartMode = async (userMessage) => {
+                const answers = findRelevantAnswers(userMessage);
+                const botResponse = formatBotMessage(answers);
+
+                setMessages(prev => [...prev, {
+                    type: 'bot',
+                    text: botResponse.text,
+                    relatedQuestions: botResponse.relatedQuestions,
+                    showCategories: botResponse.showCategories
+                }]);
+                setIsLoading(false);
+            };
+
+            const handleAIMode = async (userMessage) => {
+                setApiError('');
+
+                try {
+                    const response = await fetch('https://api.anthropic.com/v1/messages', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-api-key': apiKey,
+                            'anthropic-version': '2023-06-01',
+                            'anthropic-dangerous-direct-browser-access': 'true'
+                        },
+                        body: JSON.stringify({
+                            model: 'claude-sonnet-4-20250514',
+                            max_tokens: 1024,
+                            system: `당신은 신경섬유종증(NF) 안내 챗봇입니다. 따뜻하고 지지적인 태도로 한국어로 답변하세요. 다음의 지식 기반에서만 정보를 찾아 답변하세요. 지식 기반에 없는 내용은 "죄송하지만 그 정보는 제공하기 어렵습니다"라고 말하세요.
+
+지식 기반:
+${FULL_KNOWLEDGE_BASE}`,
+                            messages: [
+                                {
+                                    role: 'user',
+                                    content: userMessage
+                                }
+                            ]
+                        })
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error?.message || 'API 요청 실패');
+                    }
+
+                    const data = await response.json();
+                    const aiResponse = data.content[0].text;
+
+                    setMessages(prev => [...prev, {
+                        type: 'bot',
+                        text: aiResponse,
+                        isAI: true
+                    }]);
+                } catch (error) {
+                    setApiError(`오류: ${error.message}`);
+                    setMessages(prev => [...prev, {
+                        type: 'bot',
+                        text: `죄송합니다. API 오류가 발생했습니다: ${error.message}`,
+                        isError: true
+                    }]);
+                }
+
+                setIsLoading(false);
             };
 
             const handleSendMessage = (e) => {
@@ -715,47 +863,40 @@ NF1 아동의 약 절반 이상이 주의력결핍 과다행동장애(ADHD), 학
                 const userMessage = inputValue.trim();
                 setInputValue('');
                 setShowWelcome(false);
-
                 setMessages(prev => [...prev, { type: 'user', text: userMessage }]);
-
-                const match = findMatchingCategory(userMessage);
-
                 setIsLoading(true);
+
                 setTimeout(() => {
-                    if (match) {
-                        setMessages(prev => [...prev, { 
-                            type: 'bot', 
-                            text: match.category.content
-                        }]);
+                    if (mode === 'ai') {
+                        handleAIMode(userMessage);
                     } else {
-                        setMessages(prev => [...prev, { 
-                            type: 'bot', 
-                            text: `죄송합니다만 "${userMessage}"에 대한 정보를 찾지 못했습니다.\n\n다음 중에서 선택하시거나 다른 방식으로 질문해주세요:\n\n• 질환 정보 - NF1이 무엇인가요?\n• 부모 가이드 - 자녀와 대화하는 법\n• 학교생활 안내 - 학교에서의 지원\n• 학교폭력 대처 - 괴롭힘 예방 및 신고\n• 복지 혜택 - 의료비 지원 등\n• 도움 연락처 - 전문 기관 연락처`
-                        }]);
+                        handleSmartMode(userMessage);
                     }
-                    setIsLoading(false);
-                }, 600);
+                }, 300);
+            };
+
+            const handleRelatedQuestion = (question) => {
+                setInputValue(question);
+                setTimeout(() => {
+                    document.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true }));
+                }, 0);
             };
 
             const handleCategoryClick = (categoryKey) => {
-                const category = KNOWLEDGE_BASE[categoryKey];
-                const categoryName = {
-                    diseaseInfo: '질환 정보를 물어봤습니다',
-                    parentGuide: '부모 가이드를 물어봤습니다',
-                    schoolLife: '학교생활 안내를 물어봤습니다',
-                    schoolBullying: '학교폭력 대처를 물어봤습니다',
-                    welfare: '복지 혜택을 물어봤습니다',
-                    contacts: '도움 연락처를 물어봤습니다'
+                const questionMap = {
+                    diseaseInfo: '신경섬유종증이 뭐예요',
+                    parentGuide: '자녀에게 언제 NF에 대해 말해야 하나요',
+                    schoolLife: '학교 선생님과는 어떻게 소통할까요',
+                    schoolBullying: '학교폭력이 의심되면 어떻게 하나요',
+                    welfare: '의료비 지원이 있나요',
+                    contacts: '질문이 있으면 어디에 문의하나요'
                 };
 
+                setInputValue(questionMap[categoryKey]);
                 setShowWelcome(false);
-                setMessages(prev => [...prev, { type: 'user', text: categoryName[categoryKey] }]);
-                
-                setIsLoading(true);
                 setTimeout(() => {
-                    setMessages(prev => [...prev, { type: 'bot', text: category.content }]);
-                    setIsLoading(false);
-                }, 600);
+                    document.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true }));
+                }, 0);
             };
 
             const categories = [
@@ -775,15 +916,41 @@ NF1 아동의 약 절반 이상이 주의력결핍 과다행동장애(ADHD), 학
                             <h1>신경섬유종증 안내 챗봇</h1>
                             <p>신경섬유종증(NF)에 대해 알아보고 필요한 정보와 지원을 받으세요.</p>
                         </div>
+                        <div className="header-controls">
+                            <div className="mode-badge">
+                                {mode === 'ai' ? '🤖 AI' : '✨ 스마트'}
+                            </div>
+                            <button
+                                className="settings-button"
+                                onClick={() => setShowSettings(true)}
+                                title="설정"
+                            >
+                                ⚙️
+                            </button>
+                        </div>
                     </div>
 
+                    <SettingsModal
+                        isOpen={showSettings}
+                        onClose={() => setShowSettings(false)}
+                        onSetApiKey={setApiKey}
+                        hasApiKey={!!apiKey}
+                        mode={mode}
+                    />
+
                     <div className="chat-area">
+                        {mode === 'ai' && (
+                            <div className="ai-mode-notice">
+                                🤖 AI 모드로 실행 중입니다. Claude가 자연스러운 답변을 제공합니다.
+                            </div>
+                        )}
+
                         {showWelcome && (
                             <div className="welcome-section">
                                 <div className="welcome-icon">🤝</div>
                                 <div className="welcome-title">안녕하세요!</div>
                                 <div className="welcome-text">
-                                    END NF 신경섬유종증 환우회 안내 챗봇입니다. 신경섬유종증에 대해 궁금한 점을 물어보세요.
+                                    END NF 신경섬유종증 환우회 안내 챗봇입니다. 신경섬유종증에 대해 궁금한 점을 자유롭게 물어보세요.
                                 </div>
                                 <div className="category-label">주요 주제</div>
                                 <div className="categories-grid">
@@ -804,11 +971,36 @@ NF1 아동의 약 절반 이상이 주의력결핍 과다행동장애(ADHD), 학
                         {messages.map((msg, idx) => (
                             <div key={idx} className={`message ${msg.type}`}>
                                 <div className="message-bubble">
-                                    {msg.text.split('\n').map((line, i) => (
-                                        <div key={i}>
-                                            {line}
+                                    <div>{msg.text}</div>
+                                    {msg.relatedQuestions && msg.relatedQuestions.length > 0 && (
+                                        <div className="related-questions">
+                                            {msg.relatedQuestions.map((q, i) => (
+                                                <button
+                                                    key={i}
+                                                    className="related-question-button"
+                                                    onClick={() => handleRelatedQuestion(q)}
+                                                >
+                                                    {q}
+                                                </button>
+                                            ))}
                                         </div>
-                                    ))}
+                                    )}
+                                    {msg.showCategories && (
+                                        <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(107, 175, 71, 0.2)' }}>
+                                            <div style={{ fontSize: '12px', marginBottom: '8px', fontWeight: '500' }}>다음 중 선택하세요:</div>
+                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                                                {categories.map(cat => (
+                                                    <button
+                                                        key={cat.key}
+                                                        className="related-question-button"
+                                                        onClick={() => handleCategoryClick(cat.key)}
+                                                    >
+                                                        {cat.icon} {cat.label}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         ))}
@@ -820,6 +1012,12 @@ NF1 아동의 약 절반 이상이 주의력결핍 과다행동장애(ADHD), 학
                                     <div className="typing-dot"></div>
                                     <div className="typing-dot"></div>
                                 </div>
+                            </div>
+                        )}
+
+                        {apiError && (
+                            <div className="error-message">
+                                ⚠️ {apiError}
                             </div>
                         )}
 
@@ -837,7 +1035,7 @@ NF1 아동의 약 절반 이상이 주의력결핍 과다행동장애(ADHD), 학
                                     autoFocus
                                 />
                             </div>
-                            <button type="submit" className="send-button">
+                            <button type="submit" className="send-button" disabled={isLoading}>
                                 →
                             </button>
                         </form>
