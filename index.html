@@ -874,7 +874,15 @@
                         },
                         body: JSON.stringify({
                             systemInstruction: {
-                                parts: [{ text: `당신은 END NF 신경섬유종증(NF) 안내 챗봇입니다. 따뜻하고 지지적인 태도로 한국어로 답변하세요. 다음의 지식 기반에서만 정보를 찾아 답변하세요. 지식 기반에 없는 내용은 "죄송하지만 현재 제공된 자료에는 해당 정보가 없습니다. END NF 환우회나 담당 의료진에게 문의해주세요."라고 말하세요. 답변은 간결하고 이해하기 쉽게 해주세요.
+                                parts: [{ text: `당신은 END NF 신경섬유종증(NF) 안내 챗봇입니다. 따뜻하고 지지적인 태도로 한국어로 답변하세요.
+
+우선순위:
+1. 먼저 아래 지식 기반에서 정보를 찾아 답변하세요.
+2. 지식 기반에 없는 내용은 Google 검색을 활용하여 신뢰할 수 있는 의학 정보를 찾아 답변하세요.
+3. 검색으로 찾은 정보는 "웹 검색 결과에 따르면..." 으로 시작하고, 출처가 불확실하면 "정확한 정보는 담당 의료진에게 확인해주세요."를 덧붙이세요.
+4. 신경섬유종증과 관련 없는 질문에는 "저는 신경섬유종증(NF) 관련 정보를 안내하는 챗봇입니다. NF에 관한 질문을 해주세요."라고 답하세요.
+
+답변은 간결하고 이해하기 쉽게 해주세요.
 
 지식 기반:
 ${FULL_KNOWLEDGE_BASE}` }]
@@ -885,6 +893,7 @@ ${FULL_KNOWLEDGE_BASE}` }]
                                     parts: [{ text: userMessage }]
                                 }
                             ],
+                            tools: [{ google_search: {} }],
                             generationConfig: {
                                 maxOutputTokens: 1024,
                                 temperature: 0.7
@@ -898,7 +907,9 @@ ${FULL_KNOWLEDGE_BASE}` }]
                     }
 
                     const data = await response.json();
-                    const aiResponse = data.candidates[0].content.parts[0].text;
+                    // Google Search grounding 시 여러 parts가 올 수 있음
+                    const parts = data.candidates[0].content.parts;
+                    const aiResponse = parts.map(p => p.text || '').join('');
 
                     setMessages(prev => [...prev, {
                         type: 'bot',
