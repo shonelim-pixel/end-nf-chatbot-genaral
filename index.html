@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>END NF 신경섬유종증 안내 챗봇</title>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            background-color: #FFF5E6;
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        #root {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chatbot-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: #FFF5E6;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #D4A574 0%, #C89968 100%);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            border-bottom: 4px solid #6BAF47;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        .logo-area {
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .mode-badge {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .settings-button {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .settings-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #C89968;
+            margin-bottom: 16px;
+        }
+
+        .modal-description {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #E8D9CC;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: #6BAF47;
+            box-shadow: 0 0 0 3px rgba(107, 175, 71, 0.1);
+        }
+
+        .security-note {
+            background-color: #FFF9F0;
+            border-left: 4px solid #D4A574;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-button-primary {
+            background-color: #6BAF47;
+            color: white;
+        }
+
+        .modal-button-primary:hover {
+            background-color: #5a9a3e;
+        }
+
+        .modal-button-primary:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .modal-button-secondary {
+            background-color: #E8D9CC;
+            color: #333;
+        }
+
+        .modal-button-secondary:hover {
+            background-color: #D4C4B0;
+        }
+
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chat-area::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-area::-webkit-scrollbar-track {
+            background: rgba(107, 175, 71, 0.1);
+            border-radius: 10px;
+        }
+
+        .chat-area::-webkit-scrollbar-thumb {
+            background: #6BAF47;
+            border-radius: 10px;
+        }
+
+        .chat-area::-webkit-scrollbar-thumb:hover {
+            background: #5a9a3e;
+        }
+
+        .welcome-section {
+            text-align: left;
+            padding: 30px 20px;
+        }
+
+        .welcome-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .welcome-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #C89968;
+            margin-bottom: 12px;
+        }
+
+        .welcome-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .category-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #6BAF47;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .category-button {
+            background: white;
+            border: 2px solid #6BAF47;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .category-button:hover {
+            background-color: #6BAF47;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(107, 175, 71, 0.2);
+        }
+
+        .category-button:active {
+            transform: translateY(0);
+        }
+
+        .category-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 8px;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            word-wrap: break-word;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .message.user .message-bubble {
+            background-color: #6BAF47;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.bot .message-bubble {
+            background-color: white;
+            color: #333;
+            border: 1px solid #E8D9CC;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .message-bubble strong {
+            color: #C89968;
+            font-weight: 600;
+        }
+
+        .message.bot .message-bubble strong {
+            color: #C89968;
+        }
+
+        .message.user .message-bubble strong {
+            color: #FFF5E6;
+        }
+
+        .related-questions {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .related-question-button {
+            background-color: rgba(107, 175, 71, 0.1);
+            border: 1px solid #6BAF47;
+            color: #6BAF47;
+            padding: 6px 10px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .related-question-button:hover {
+            background-color: #6BAF47;
+            color: white;
+        }
+
+        .ai-mode-notice {
+            background-color: rgba(107, 175, 71, 0.1);
+            border-left: 4px solid #6BAF47;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .input-area {
+            background-color: white;
+            padding: 16px 20px;
+            border-top: 1px solid #E8D9CC;
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #FFF5E6;
+            border: 1px solid #D4A574;
+            border-radius: 24px;
+            padding: 8px 16px;
+        }
+
+        .input-wrapper input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 15px;
+            outline: none;
+            color: #333;
+            font-family: inherit;
+        }
+
+        .input-wrapper input::placeholder {
+            color: #999;
+        }
+
+        .send-button {
+            background-color: #6BAF47;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .send-button:hover {
+            background-color: #5a9a3e;
+            transform: scale(1.05);
+        }
+
+        .send-button:active {
+            transform: scale(0.95);
+        }
+
+        .send-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background-color: white;
+            border: 1px solid #E8D9CC;
+            border-radius: 16px;
+            width: fit-content;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #C89968;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                opacity: 0.3;
+            }
+            30% {
+                opacity: 1;
+            }
+        }
+
+        .error-message {
+            background-color: #FFE8E8;
+            border-left: 4px solid #D4756F;
+            padding: 12px;
+            border-radius: 4px;
+            color: #A85050;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .header p {
+                font-size: 13px;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
+
+            .chat-area {
+                padding: 16px;
+            }
+
+            .input-area {
+                padding: 12px 16px;
+            }
+
+            .modal {
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 16px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .welcome-section {
+                padding: 20px;
+            }
+
+            .input-wrapper {
+                padding: 6px 12px;
+            }
+
+            .send-button {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+
+            .settings-button {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Smart Keyword Mode: Q&A Knowledge Base
+        const SMART_QA_BASE = [
+            // Disease Info - NF1 Basics
+            { q: "신경섬유종증이 뭐예요", a: "신경섬유종증은 신경과 피부, 여러 장기에 영향을 주는 유전 질환입니다. 신경피부증후군 중 가장 흔하며, 약 90% 이상이 NF1 유형입니다.", keywords: ["신경섬유종증", "nf1", "질환", "뭐", "뭔가", "정의"], category: "질환정보", relatedQ: ["NF1은 유전인가요?", "카페오레반점이란 뭐예요?"] },
+            { q: "NF1은 유전인가요", a: "네, NF1은 상염색체 우성 유전질환입니다. 환자의 약 50%는 부모로부터 유전되고, 나머지 50%는 새로운 돌연변이로 발생합니다.", keywords: ["유전", "상속", "부모", "물려받다", "유전되다"], category: "질환정보", relatedQ: ["부모와 대화하는 방법", "자녀에게 어떻게 알릴까요?"] },
+            { q: "카페오레반점이란 뭐예요", a: "카페오레반점은 연한 갈색 반점으로, 출생 시 또는 생후 수개월 내에 생깁니다. 직경 5mm 이상인 반점이 6개 이상이면 NF1 진단의 중요한 기준입니다.", keywords: ["카페오레", "반점", "갈색", "피부", "색소"], category: "질환정보", relatedQ: ["다른 피부 증상이 있나요?", "겨드랑이 주근깨가 뭐예요?"] },
+            { q: "겨드랑이나 사타구니에 주근깨가 생기나요", a: "네, 겨드랑이와 서혜부(사타구니) 부위의 주근깨도 NF1 진단의 중요한 단서입니다.", keywords: ["주근깨", "겨드랑이", "서혜부", "사타구니", "피부"], category: "질환정보", relatedQ: ["카페오레반점이란 뭐예요?", "신경섬유종이란 뭐예요?"] },
+            { q: "신경섬유종이란 뭐예요", a: "신경섬유종은 말초신경에 생기는 양성 종양입니다. 피부신경섬유종이 가장 흔하고, 악성화 가능성이 있는 총상신경섬유종도 있습니다. 최근에는 셀루메티닙이라는 표적치료제로 치료합니다.", keywords: ["신경섬유종", "종양", "양성", "악성", "셀루메티닙"], category: "질환정보", relatedQ: ["시신경교종이 뭐예요?", "치료 방법이 있나요?"] },
+            { q: "시신경교종이 뭐예요", a: "시신경교종은 시신경에 발생하는 종양으로, 소아기에 나타날 수 있습니다. 시력 저하, 시야 결손 등을 유발할 수 있으며 MRI로 진단합니다.", keywords: ["시신경교종", "안과", "시력", "시신경", "눈", "교종"], category: "질환정보", relatedQ: ["안과적 증상이 뭐예요?", "Lisch결절이란?"] },
+            { q: "Lisch결절이란 뭐예요", a: "Lisch 결절은 눈의 홍채에 나타나는 갈색 결절로, NF1 환자의 약 70% 이상에서 관찰됩니다. 시력에는 영향을 주지 않습니다.", keywords: ["lisch", "결절", "홍채", "눈", "안구"], category: "질환정보", relatedQ: ["안과적 증상이 뭐예요?", "시신경교종이 뭐예요?"] },
+            { q: "NF1이 있으면 인지/학습에 영향이 있나요", a: "네, NF1 환자의 약 50% 이상이 ADHD나 학습장애를 경험합니다. 언어력, 실행기능, 작업기억에 어려움이 있을 수 있습니다. 조기 평가와 중재가 중요합니다.", keywords: ["학습", "인지", "adhd", "학습장애", "주의력", "기억"], category: "질환정보", relatedQ: ["학교 선생님과는 어떻게 소통할까요?", "아이가 학교에서 도움을 받을 수 있나요?"] },
+            { q: "골격 문제가 생기나요", a: "네, 척추측만증, 장골 이형성, 두개골 이상 등의 골격계 기형이 나타날 수 있습니다. 정형외과적 개입이 필요한 경우도 있습니다.", keywords: ["골격", "척추", "뼈", "기형", "정형외과"], category: "질환정보", relatedQ: ["운동이나 체육은 괜찮나요?", "척추측만증이 뭐예요?"] },
+            { q: "고혈압이나 다른 내과적 문제가 있나요", a: "네, 고혈압이 발생할 수 있으며 신장 혈관의 협착이나 갈색세포종과 연관될 수 있습니다. 정기적인 의료 모니터링이 중요합니다.", keywords: ["고혈압", "내과", "혈관", "갈색세포종"], category: "질환정보", relatedQ: ["정기 검진은 어떻게 하나요?", "치료 방법이 있나요?"] },
+
+            // Parent Guide
+            { q: "자녀에게 언제 NF에 대해 말해야 하나요", a: "8세가 되면 아이들은 자신의 상태에 대해 어느 정도 이미 알고 있습니다. 개인차가 있지만, 조기에 솔직하게 설명하는 것이 신뢰와 독립성을 높입니다.", keywords: ["자녀", "아이", "언제", "말하기", "알려야"], category: "부모가이드", relatedQ: ["어떻게 대화하면 좋을까요?", "아이 나이별로는 어떻게 달라지나요?"] },
+            { q: "아이에게 NF를 어떻게 설명하면 좋을까요", a: "차분하고 인내심 있게, 서두르지 말고, 개인적인 공간에서, 솔직하게 대화하세요. 넓은 범위에서 시작하되 대화가 한 번에 끝날 필요는 없습니다. 항상 부모의 지지를 강조하세요.", keywords: ["설명", "대화", "어떻게", "말하기", "아이"], category: "부모가이드", relatedQ: ["자녀에게 언제 말해야 하나요?", "아이 나이별로는 어떻게 달라지나요?"] },
+            { q: "아이 나이별로는 어떻게 달라지나요", a: "출생~2세: 간단한 연결 / 3~7세: 사실 중심적 설명 / 8~11세: 앞으로 나타날 특징 설명 / 12~19세: 독립성, 정체성 형성에 초점을 맞추세요.", keywords: ["나이", "발달", "단계", "나이별", "어린이"], category: "부모가이드", relatedQ: ["아이에게 NF를 어떻게 설명하면 좋을까요?"] },
+            { q: "대화 준비는 어떻게 하나요", a: "먼저 신경섬유종증에 대해 충분히 알아보세요. 자신의 감정을 정리하고, 누가 함께할지, 어디에서, 언제 대화할지 미리 계획하세요.", keywords: ["준비", "계획", "대화", "감정", "불안"], category: "부모가이드", relatedQ: ["아이에게 NF를 어떻게 설명하면 좋을까요?"] },
+            { q: "내 자녀도 NF가 있다면 어떻게 설명하나요", a: "가족의 공통 특징을 설명하고 유전에 대해 이해하도록 도와주세요. '우리 가족은 이런 특징이 있다'는 식으로 긍정적으로 접근하세요.", keywords: ["부모", "가족", "공통", "유전", "특징"], category: "부모가이드", relatedQ: ["자녀에게 언제 NF에 대해 말해야 하나요?"] },
+
+            // School
+            { q: "학교 선생님과는 어떻게 소통할까요", a: "아이의 NF 상태, 특별히 주의할 점, 진료 일정을 미리 알려주세요. ADHD나 학습장애가 있다면 개별화 교육계획(IEP)에 대해 논의하세요.", keywords: ["학교", "선생님", "소통", "교육", "교직원"], category: "학교안내", relatedQ: ["학교에서 어떤 도움을 받을 수 있나요?", "피부 증상으로 놀림을 받으면?"] },
+            { q: "학교에서 어떤 도움을 받을 수 있나요", a: "학습보조 도구, 좌석 배치 조정(시력 고려), 체육활동 맞춤화, 휴식 시간 제공, 정서적 지지 등이 가능합니다. 학교와 미리 계획을 세우세요.", keywords: ["도움", "지원", "학교", "학습", "편의"], category: "학교안내", relatedQ: ["학교 선생님과는 어떻게 소통할까요?", "ADHD가 있다면 어떻게 하나요?"] },
+            { q: "ADHD가 있다면 어떻게 하나요", a: "개별화 교육계획(IEP) 수립을 요청하세요. 학습보조 도구, 집중력 유지를 위한 환경 조정, 특수교직원 연계 등이 효과적입니다.", keywords: ["adhd", "주의력", "집중", "학습장애", "지원"], category: "학교안내", relatedQ: ["학교에서 어떤 도움을 받을 수 있나요?", "읽기나 쓰기에 어려움이 있으면?"] },
+            { q: "읽기나 쓰기에 어려움이 있으면", a: "학습장애 평가를 받아 특수교육 서비스를 신청하세요. 음성 교과서, 타이핑 도구, 추가 시간 할당 등이 도움이 됩니다.", keywords: ["읽기", "쓰기", "학습장애", "언어", "이해"], category: "학교안내", relatedQ: ["ADHD가 있다면 어떻게 하나요?"] },
+            { q: "시력이 안 좋으면 학교에서 뭘 해주나요", a: "칠판이 잘 보이는 좌석으로 배치하고, 시각자료를 확대하거나 반복적으로 제시해주세요. 정기적인 시력검사로 변화를 모니터링하세요.", keywords: ["시력", "시각", "눈", "칠판", "교실"], category: "학교안내", relatedQ: ["정기 검진은 어떻게 하나요?", "학교 선생님과는 어떻게 소통할까요?"] },
+            { q: "피부 증상으로 놀림을 받으면", a: "즉시 선생님에게 알리세요. 학교에서는 모든 학생의 외모를 존중하고 차별을 금지하는 교육을 해야 합니다. 따돌림 예방 교육이 중요합니다.", keywords: ["놀림", "차별", "외모", "신경섬유종", "색소"], category: "학교안내", relatedQ: ["학교폭력 신고는 어떻게 하나요?", "자존감을 높이려면?"] },
+            { q: "운동이나 체육은 괜찮나요", a: "척추측만증이나 근력 약화가 있으면 맞춤형 체육이 필요합니다. 선생님과 상담하여 적절한 활동을 선택하거나 대체활동을 제시하세요.", keywords: ["운동", "체육", "활동", "신체", "운동능력"], category: "학교안내", relatedQ: ["골격 문제가 생기나요?", "피로가 있으면?"] },
+            { q: "피로가 있으면 학교에서 어떻게 하나요", a: "수업 중 휴식이 필요하면 선생님에게 알리세요. 통증이나 피로가 심해지면 즉시 보호자와 연락하는 체계를 만드세요.", keywords: ["피로", "통증", "휴식", "에너지", "피곤"], category: "학교안내", relatedQ: ["자녀에게 언제 NF에 대해 말해야 하나요?"] },
+            { q: "자존감을 높이려면", a: "아이가 구체적인 작은 성공을 자주 경험하도록 격려하세요. 실패보다 성공을 강조하고, 외모가 아닌 능력과 성격을 칭찬하세요.", keywords: ["자존감", "성공", "자신감", "격려", "칭찬"], category: "학교안내", relatedQ: ["피부 증상으로 놀림을 받으면", "정서적 지지가 필요하면?"] },
+            { q: "정서적 지지가 필요하면", a: "학교 상담 선생님이나 전문 심리상담을 받아보세요. 또래 환우회나 온라인 커뮤니티도 도움이 됩니다.", keywords: ["정서", "지지", "상담", "심리", "감정"], category: "학교안내", relatedQ: ["자존감을 높이려면", "학교폭력 신고는 어떻게 하나요?"] },
+
+            // Bullying
+            { q: "학교폭력이 의심되면 어떻게 하나요", a: "즉시 학교 선생님이나 상담 선생님에게 알리세요. 필요하면 117 학교폭력 신고전화나 청소년 상담센터(1388)에 신고하세요.", keywords: ["폭력", "신고", "괴롭힘", "따돌림", "차별"], category: "학교폭력", relatedQ: ["어떤 징후를 주의해야 하나요?", "신고 번호는 뭐예요?"] },
+            { q: "어떤 징후를 주의해야 하나요", a: "표정이 어둡고 학교 가기를 싫어함, 두통/복통/수면 문제, 성적 급락, 휴대폰 사용을 두려워함 등이 신호입니다.", keywords: ["징후", "증상", "신호", "변화", "관찰"], category: "학교폭력", relatedQ: ["학교폭력이 의심되면 어떻게 하나요?"] },
+            { q: "신고 번호는 뭐예요", a: "117 학교폭력(24시간), 1388 청소년상담센터(24시간), 경찰 182, 푸른나무재단 1588-9128, 탁틴내일 02-3141-6191", keywords: ["신고", "번호", "전화", "연락처", "상담"], category: "학교폭력", relatedQ: ["어떤 징후를 주의해야 하나요?", "피해 회복은 어떻게 하나요?"] },
+            { q: "피해 회복은 어떻게 하나요", a: "'내 잘못이 아니다'를 반복 확인하고, 작은 성공 경험을 쌓게 하세요. 신뢰할 수 있는 사람과의 관계, 신체활동, 감정 표현을 격려하세요.", keywords: ["회복", "치유", "피해", "극복", "지지"], category: "학교폭력", relatedQ: ["신고 번호는 뭐예요?"] },
+            { q: "외모 때문에 놀림을 받으면", a: "즉시 부모와 선생님에게 알리세요. 이는 학교폭력입니다. 117에 신고하고, 학교는 따돌림 예방 교육을 강화해야 합니다.", keywords: ["놀림", "외모", "괴롭힘", "차별", "신경섬유종"], category: "학교폭력", relatedQ: ["학교폭력이 의심되면 어떻게 하나요?", "신고 번호는 뭐예요?"] },
+
+            // Welfare
+            { q: "의료비 지원이 있나요", a: "네, 산정특례(본인부담 10% 경감), 희귀질환자 의료비지원, 재난적의료비지원 등이 있습니다. 국민건강보험공단(1577-1000)에 문의하세요.", keywords: ["의료비", "지원", "비용", "경감", "보험"], category: "복지혜택", relatedQ: ["산정특례가 뭐예요?", "장애 등록 혜택이 있나요?"] },
+            { q: "산정특례가 뭐예요", a: "희귀질환으로 본인부담률을 10%로 경감해주는 제도입니다. 확진일로부터 30일 이내 신청 시 소급 적용되며, 5년마다 재신청합니다.", keywords: ["산정특례", "경감", "부담", "보험", "신청"], category: "복지혜택", relatedQ: ["의료비 지원이 있나요?", "본인부담상한제는?"] },
+            { q: "본인부담상한제는", a: "1년간 지출한 본인부담액이 소득 기준 상한액을 넘으면, 넘는 부분을 환급해주는 제도입니다.", keywords: ["상한제", "환급", "기준", "소득"], category: "복지혜택", relatedQ: ["산정특례가 뭐예요?", "의료비 지원이 있나요?"] },
+            { q: "희귀질환자 의료비 지원은 뭐예요", a: "산정특례 등록 환자 중 소득/재산 기준을 만족하면 진료비, 약제비, 보조기기, 간병비 등을 지원합니다. 관할 보건소에 문의하세요.", keywords: ["희귀질환", "의료비", "지원", "보건소"], category: "복지혜택", relatedQ: ["의료비 지원이 있나요?", "어떤 것들을 지원하나요?"] },
+            { q: "어떤 것들을 지원하나요", a: "진료비, 약제비, 보조기기, 특수식이, 간병비 등이 지원됩니다. 더 자세히는 관할 보건소에 문의하세요.", keywords: ["지원", "항목", "보조", "기기", "식이"], category: "복지혜택", relatedQ: ["희귀질환자 의료비 지원은 뭐예요?"] },
+            { q: "장애 등록 혜택이 있나요", a: "고속도로통행료 할인, 통신요금 감면, 교통요금 감면, 세금감면, 보조기기 교부, 활동지원 등을 받을 수 있습니다.", keywords: ["장애", "등록", "혜택", "할인", "감면"], category: "복지혜택", relatedQ: ["의료비 지원이 있나요?", "어떻게 등록하나요?"] },
+            { q: "어떻게 등록하나요", a: "후유장애가 남은 경우 보건소나 병원에서 장애 진단을 받은 후 장애인 등록을 신청하세요.", keywords: ["등록", "신청", "장애", "진단", "절차"], category: "복지혜택", relatedQ: ["장애 등록 혜택이 있나요?"] },
+
+            // Contacts
+            { q: "질문이 있으면 어디에 문의하나요", a: "질병관리청 희귀질환 헬프라인(helpline.kdca.go.kr), 국민건강보험공단(1577-1000), 보건복지상담센터(129)에 문의할 수 있습니다.", keywords: ["문의", "연락", "헬프라인", "센터", "정보"], category: "연락처", relatedQ: ["학교폭력 신고는?", "긴급 상황에는?"] },
+            { q: "학교폭력 신고는", a: "117 학교폭력(24시간), 청소년상담센터 1388(24시간), 경찰 182, 푸른나무 1588-9128", keywords: ["신고", "폭력", "긴급", "번호"], category: "연락처", relatedQ: ["질문이 있으면 어디에 문의하나요?"] },
+            { q: "긴급 상황에는", a: "경찰 182, 여성긴급전화 1366(24시간), 학교폭력 117(24시간)에 신고하세요.", keywords: ["긴급", "신고", "경찰", "상황"], category: "연락처", relatedQ: ["학교폭력 신고는?", "법률 도움은?"] },
+            { q: "법률 도움은", a: "경찰 민원포털 182, 대한법률구조공단 132에 문의하세요.", keywords: ["법률", "도움", "권리", "구조"], category: "연락처", relatedQ: ["긴급 상황에는?"] },
+
+            // PGT & Genetic Counseling
+            { q: "임신할 때 아이에게 유전될 확률은", a: "NF1은 상염색체 우성 유전으로, NF1 환자의 자녀에게 유전될 확률은 50%입니다. 성별에 관계없이 동일합니다.", keywords: ["임신", "유전", "확률", "자녀", "아기", "출산"], category: "유전상담", relatedQ: ["PGT 착상전 유전자 검사란?", "유전 상담은 어디서 받나요?"] },
+            { q: "PGT 착상전 유전자 검사란", a: "PGT(착상전 유전자 검사)는 시험관 아기(IVF) 시술 과정에서 배아의 유전자를 검사하여 NF1 돌연변이가 없는 배아만 선별하여 이식하는 방법입니다. NF1 유전을 예방할 수 있는 방법 중 하나입니다.", keywords: ["pgt", "착상전", "유전자검사", "시험관", "배아", "ivf"], category: "유전상담", relatedQ: ["임신할 때 아이에게 유전될 확률은?", "유전 상담은 어디서 받나요?"] },
+            { q: "유전 상담은 어디서 받나요", a: "대학병원 유전학과나 희귀질환 전문 클리닉에서 유전 상담을 받을 수 있습니다. 가족계획, PGT, 산전검사 등에 대해 전문가와 상담하세요.", keywords: ["유전상담", "상담", "가족계획", "산전", "클리닉"], category: "유전상담", relatedQ: ["PGT 착상전 유전자 검사란?", "산전검사로 알 수 있나요?"] },
+            { q: "산전검사로 NF1을 알 수 있나요", a: "네, 임신 중 양수검사나 융모막검사를 통해 태아의 NF1 유전자 돌연변이를 확인할 수 있습니다. 다만 가족 내 돌연변이가 먼저 확인되어 있어야 합니다.", keywords: ["산전검사", "양수검사", "융모막", "태아", "임신중"], category: "유전상담", relatedQ: ["PGT 착상전 유전자 검사란?", "유전 상담은 어디서 받나요?"] },
+            { q: "미래 자녀에 대해 아이에게 어떻게 알려주나요", a: "아이가 성에 관심을 갖기 시작하는 시기(보통 2세 이후)부터 자연스럽게 성교육을 시작하고, 미래 태어날 아이에게 NF가 유전될 가능성이 50%임을 알려주세요.", keywords: ["미래", "자녀", "알려", "성교육", "아이"], category: "유전상담", relatedQ: ["임신할 때 아이에게 유전될 확률은?"] },
+
+            // Puberty & Adolescence
+            { q: "사춘기에 특별히 주의할 점이 있나요", a: "사춘기는 신체적·호르몬적 변화가 큰 시기입니다. 총상신경섬유종이 더 뚜렷해질 수 있고, 피부 병변이나 외모 변화로 우울감, 위축, 대인기피를 겪을 수 있어 정신건강 평가가 중요합니다.", keywords: ["사춘기", "청소년", "호르몬", "변화", "2차성징"], category: "부모가이드", relatedQ: ["자존감을 높이려면?", "정서적 지지가 필요하면?"] },
+            { q: "소셜 미디어와 친구 관계는 어떻게 하나요", a: "부상 위험이 있는 활동은 피하고, 아이가 잘 성장할 수 있는 활동을 권장하세요. 소셜 미디어 사용을 대화로 관찰하고, 지적·발달 차이가 있는 경우 인터넷과 사회적 안전에 대한 교육과 감독이 필요합니다.", keywords: ["소셜미디어", "sns", "친구", "인터넷", "온라인"], category: "부모가이드", relatedQ: ["사춘기에 특별히 주의할 점이 있나요?"] },
+            { q: "중학교 고등학교 전환이 어려운가요", a: "네, 성인으로의 전환 등 생활 변화가 큰 시기에 어려움을 겪을 수 있습니다. 학습 차이와 기대치가 높아지면서 더 힘들 수 있으므로, 지역 사회 프로그램을 활용해 지원하세요.", keywords: ["중학교", "고등학교", "전환", "변화", "적응"], category: "부모가이드", relatedQ: ["사춘기에 특별히 주의할 점이 있나요?", "학교에서 어떤 도움을 받을 수 있나요?"] },
+
+            // Parent Self-Care
+            { q: "부모가 자기 돌봄을 어떻게 하나요", a: "자녀를 돌보면서 다양한 감정이 드는 것은 자연스럽습니다. NF는 누구의 잘못도 아닙니다. 비슷한 경험의 가족을 만나고, 온라인 활동이나 지역사회 행사에 참여하세요. 필요하면 정신건강 상담을 받으세요.", keywords: ["부모", "돌봄", "자기", "감정", "스트레스", "죄책감", "고립"], category: "부모가이드", relatedQ: ["질문이 있으면 어디에 문의하나요?"] },
+
+            // Age-specific management (from school staff guide)
+            { q: "영유아기(0~2세) 관리는 어떻게 하나요", a: "피부 증상과 성장 발달 평가가 핵심입니다. 카페오레 반점 관찰, 6개 이상이면 유전적 평가를 고려합니다. NF1 가족력이 있으면 유전자 검사로 조기 진단이 가능합니다. 운동발달 지연이나 시각 이상 여부도 관찰하세요.", keywords: ["영유아", "0세", "1세", "2세", "아기", "신생아"], category: "연령별관리", relatedQ: ["학령전기(3~6세) 관리는?", "정기 검진은 어떻게 하나요?"] },
+            { q: "학령전기(3~6세) 관리는", a: "피부 병변 증가, 행동발달 관찰, 시신경교종 여부 평가가 중요합니다. 주의력, 사회성 결핍 등 초기 행동 문제가 나타날 수 있어 발달검사, 행동검사로 인지 및 사회성 발달을 정기적으로 평가하세요.", keywords: ["3세", "4세", "5세", "6세", "유치원", "학령전"], category: "연령별관리", relatedQ: ["영유아기(0~2세) 관리는?", "조기 학령기(7~10세) 관리는?"] },
+            { q: "조기 학령기(7~10세) 관리는", a: "인지 기능, 학습능력, 정서적 적응 평가가 매우 중요합니다. 학습장애(LD)나 ADHD가 학업에 영향을 줄 수 있으므로 심리검사, 지능검사를 통해 특수교육이나 치료적 개입을 연계하세요. 피부 신경섬유종도 이 시기에 나타나기 시작합니다.", keywords: ["7세", "8세", "9세", "10세", "초등", "학령기"], category: "연령별관리", relatedQ: ["학령전기(3~6세) 관리는?", "후기 학령기(11세+) 관리는?"] },
+            { q: "후기 학령기(11세 이상) 관리는", a: "사춘기 변화, 종양 진행 여부 모니터링이 핵심입니다. 총상신경섬유종이 더 뚜렷해질 수 있고, 악성 전환 조짐이 보이면 MRI와 조직검사를 합니다. 우울감, 대인기피 등 정신건강 평가와 고혈압, 내분비 이상도 관찰해야 합니다.", keywords: ["11세", "12세", "중학", "고등", "후기학령"], category: "연령별관리", relatedQ: ["사춘기에 특별히 주의할 점이 있나요?"] },
+
+            // School staff management specifics
+            { q: "교직원이 알아야 할 NF1 관리는", a: "학습/인지 저하 이해(IEP), 시력 저하 고려(좌석배치), 피부/외모 변화에 대한 교우관계 지도, 체육활동 맞춤 배려, 피로/통증 관찰, 정서적 지지, 응급상황 시 보호자 연락 체계가 필요합니다.", keywords: ["교직원", "교사", "담임", "관리", "학교관리"], category: "학교안내", relatedQ: ["학교 선생님과는 어떻게 소통할까요?", "학교에서 어떤 도움을 받을 수 있나요?"] },
+            { q: "학교에서 응급상황이 발생하면", a: "간헐적인 통증, 두통, 시력 이상 등 증상이 나타나면 즉시 보호자와 연락합니다. 학부모 연락처와 병원 정보를 미리 확보하세요.", keywords: ["응급", "상황", "통증", "두통", "연락"], category: "학교안내", relatedQ: ["교직원이 알아야 할 NF1 관리는?"] },
+
+            // Home management
+            { q: "정기 검진은 어떻게 하나요", a: "NF1 아동은 뇌 MRI, 시력검사, 정형외과 진료 등 정기적인 병원 방문이 필요합니다. 교직원과 소통하여 진료 일정으로 인한 결석 시 학습 공백을 최소화하세요.", keywords: ["검진", "정기", "mri", "병원", "진료"], category: "가정관리", relatedQ: ["교직원이 알아야 할 NF1 관리는?"] },
+            { q: "숙제나 학습 부담은 어떻게 하나요", a: "인지 기능이나 시각 처리에 어려움이 있을 수 있어 숙제는 양보다 질을 우선시하고, 필요시 유연한 대안을 고려하세요.", keywords: ["숙제", "공부", "학습부담", "과제"], category: "가정관리", relatedQ: ["ADHD가 있다면 어떻게 하나요?"] },
+
+            // Bullying details
+            { q: "학교폭력 신고 절차는 어떻게 되나요", a: "1단계: 학교에 신고(117전화 또는 직접) → 2단계: 피해학생 즉시 보호조치 → 3단계: 사안조사(피해/가해학생 면담) → 4단계: 학교폭력대책심의위원회 심의. 학교 처리에 동의하지 않으면 교육지원청 재심이나 행정소송, 경찰 신고도 가능합니다.", keywords: ["절차", "단계", "신고절차", "심의", "위원회"], category: "학교폭력", relatedQ: ["학교폭력이 의심되면 어떻게 하나요?", "신고 번호는 뭐예요?"] },
+            { q: "사이버 폭력 징후는 뭐예요", a: "불안한 기색으로 휴대폰을 자주 확인, 단체 채팅방에서 반복적으로 공격당함, 온라인 기기 사용 요금이 급증, SNS 분위기가 갑자기 부정적으로 변함, 갑자기 휴대전화를 끄거나 SNS 탈퇴하는 것이 징후입니다.", keywords: ["사이버", "온라인", "폭력", "인터넷폭력", "디지털"], category: "학교폭력", relatedQ: ["어떤 징후를 주의해야 하나요?", "학교폭력 신고 절차는?"] },
+
+            // Selumetinib treatment
+            { q: "셀루메티닙 치료가 뭐예요", a: "셀루메티닙(selumetinib)은 총상신경섬유종(plexiform neurofibroma) 치료를 위한 표적치료제입니다. 종양의 크기를 줄이는 효과가 있으며, 수술이 어려운 총상신경섬유종에 사용됩니다.", keywords: ["셀루메티닙", "selumetinib", "치료", "약", "표적치료"], category: "질환정보", relatedQ: ["신경섬유종이란 뭐예요?", "치료 방법이 있나요?"] },
+            { q: "치료 방법이 있나요", a: "현재 NF1 자체를 완치하는 치료는 없지만, 각 증상에 대한 관리와 치료가 가능합니다. 총상신경섬유종에는 셀루메티닙, 시신경교종에는 방사선/항암치료, 골격 문제에는 정형외과 치료, ADHD에는 약물/행동치료를 합니다.", keywords: ["치료", "방법", "완치", "관리", "약물"], category: "질환정보", relatedQ: ["셀루메티닙 치료가 뭐예요?", "정기 검진은 어떻게 하나요?"] },
+
+            // MPNST
+            { q: "악성 종양으로 변할 수 있나요", a: "일부에서는 총상신경섬유종이 악성 말초신경초종양(MPNST)으로 전환될 수 있습니다. 갑작스런 통증 증가, 종양의 급격한 크기 변화가 있으면 즉시 진료를 받으세요. 정기적인 추적관찰이 중요합니다.", keywords: ["악성", "mpnst", "암", "전환", "말초신경"], category: "질환정보", relatedQ: ["신경섬유종이란 뭐예요?", "정기 검진은 어떻게 하나요?"] }
+        ];
+
+        // Full knowledge base for AI Mode
+        const FULL_KNOWLEDGE_BASE = `[질환 정보] 신경섬유종증(NF1)은 신경과 피부, 여러 장기에 영향을 주는 유전 질환으로 신경피부증후군(neurocutaneous syndrome) 중 가장 흔합니다. 대표적 유형인 NF1은 전체의 약 90% 이상을 차지하며, 1882년 폰 레클링하우젠에 의해 처음 보고되었습니다. NF1은 상염색체 우성 유전이며 약 50%는 부모로부터 유전, 50%는 새로운 자발 돌연변이입니다. 전신에 영향을 미치는 다기관 질환으로 같은 유전자를 가진 가족 내에서도 증상의 정도와 형태가 다를 수 있습니다.
+주요 증상: 카페오레반점(연한 갈색 반점, 생후 수개월 내 발생, 직경 5mm 이상 6개 이상이면 진단기준), 겨드랑이/서혜부 주근깨(freckling, 학령기 초기에 많이 나타남), Lisch결절(홍채의 색소성 결절, 약 70% 이상 관찰, 시력에 영향 없음), 시신경교종(optic pathway glioma, 소아기 발생, 시력저하/시야결손 유발, MRI로 진단), 신경섬유종(피부신경섬유종은 양성, 총상신경섬유종/plexiform neurofibroma은 악성화 가능, 셀루메티닙/selumetinib 표적치료제로 치료), 악성말초신경초종양(MPNST, 드물지만 발생 가능하여 정기적 추적관찰 필요), ADHD/학습장애(약 50% 이상, 언어력/실행기능/작업기억에 어려움, 자폐스펙트럼 동반 가능), 척추측만증/장골이형성/가성관절 등 골격기형, 고혈압(신장혈관협착/갈색세포종 관련), 내분비이상(성조숙증, 성장지연), 뇌 이상(수두증, 수막종, 간질).
+현재 NF1 자체를 완치하는 치료는 없지만 각 증상별 관리와 치료가 가능합니다.
+
+[유전 상담 및 PGT] NF1은 상염색체 우성 유전으로 환자의 자녀에게 유전될 확률은 50%입니다(성별 무관). PGT(착상전 유전자 검사/Preimplantation Genetic Testing)는 시험관 아기(IVF) 시술 중 배아의 유전자를 검사하여 NF1 돌연변이가 없는 배아만 선별하여 이식하는 방법입니다. 산전검사(양수검사/융모막검사)를 통해 임신 중 태아의 NF1 유전자 돌연변이도 확인 가능합니다(가족 내 돌연변이가 먼저 확인되어 있어야 함). 대학병원 유전학과나 희귀질환 전문 클리닉에서 유전 상담을 받을 수 있습니다. 아이가 성에 관심을 갖는 시기부터 미래 자녀에 대한 50% 유전 가능성을 자연스럽게 알려주고 성교육이 필요합니다.
+
+[부모 가이드] 8세 이상이면 아이는 자신의 상태를 어느 정도 알고 있습니다. 자녀에게 알리는 것이 신뢰/독립성/적응을 높입니다. 충분히 알아보고 감정을 정리한 후 차분하고 인내심 있게, 개인적 공간에서, 솔직하게, 긍정적으로 대화하세요. 출생~2세는 간단한 연결, 3~7세는 사실 중심적, 8~11세는 앞으로 나타날 특징, 12~19세는 정체성 형성에 초점을 맞추세요.
+사춘기 고려사항: 신체적·호르몬적 변화가 큰 시기로, 총상신경섬유종이 더 뚜렷해질 수 있고, 피부 병변/신체 변형으로 우울감, 위축, 대인기피를 겪을 수 있습니다. 정기적 정신건강 평가와 상담이 중요합니다. 소셜 미디어 사용을 대화로 관찰하고, 부상 위험 활동은 피하되 아이가 잘 성장할 활동을 권장하세요. 중학교/고등학교 전환 시 학습 차이와 기대치 증가로 어려움이 커질 수 있어 지역사회 프로그램을 활용하세요.
+부모 자기 돌봄: NF는 누구의 잘못도 아닙니다. 죄책감을 느끼지 마세요. 비슷한 경험의 가족을 만나고, 온라인 활동이나 지역사회 행사에 참여하세요. 필요하면 정신건강 상담을 받으세요.
+
+[연령별 관리] 영유아기(0~2세): 피부 증상과 성장 발달 평가가 핵심. 카페오레 반점 관찰, 6개 이상이면 유전적 평가 고려. NF1 가족력 있으면 유전자 검사로 조기 진단 가능. 운동발달 지연이나 시각계 이상도 관찰. 총상신경섬유종이 이 시기에 발견되기도 함.
+학령전기(3~6세): 피부 병변 증가, 행동발달 관찰, 시신경교종 여부 평가 중요. ADHD나 자폐 스펙트럼 초기 징후 관찰. 발달검사, 행동검사로 인지/사회성 발달 정기 평가. 정기적 안과 검진 및 뇌 MRI 권장.
+조기 학령기(7~10세): 인지 기능, 학습능력, 정서적 적응 평가가 매우 중요. 학습장애(LD)나 ADHD가 학업에 영향. 심리검사, 지능검사 통해 특수교육/치료적 개입 연계. 피부 신경섬유종 나타나기 시작, 척추측만증 모니터링.
+후기 학령기(11세+): 사춘기 변화, 종양 진행 여부 모니터링 핵심. 악성 전환 조짐 시 MRI와 조직검사. 정신건강 평가(우울, 위축, 대인기피), 고혈압/내분비 이상 관찰, 소아내분비과 병행 진료.
+
+[학교생활] 학교 선생님과 미리 NF 상태, 주의점, 진료일정을 소통하세요. ADHD/학습장애시 IEP 요청, 학습보조도구, 좌석배치 조정(시력), 체육활동 맞춤화, 휴식제공, 정서적 지지가 필요합니다. 외모 기반 따돌림 예방, 자존감 강화(작은 성공 경험), 정기 검진 연계(뇌MRI/시력/정형외과)가 중요합니다.
+교직원 관리사항: 학습/인지 저하 이해(NF1 아동의 약 절반이 ADHD, LD, 실행기능 장애 경험), 시력 저하 고려(칠판 잘 보이는 좌석, 시각자료 확대), 피부/외모 변화에 대한 교우관계 지도(따돌림 예방), 체육활동 맞춤 배려(척추측만증/골격기형/근력약화 고려), 피로/통증 관찰(휴식 유도), 정서적 지지(자기효능감 향상, 구체적 성취 경험 격려), 응급상황 시 학부모/병원 연락 체계 확보.
+가정생활 관리: 정기검진(뇌MRI/시력/정형외과), 숙제부담 완화(양보다 질), 생활지도 계획(예측 가능한 일과), 자존감 향상(가정-학교 연계, 칭찬 문화), 가정 내 정서적 지지(불안/자존감 저하/사회적 위축 이해).
+
+[학교폭력 대처] 유형: 신체적/경제적/정서적/언어적/사이버/외모기반 괴롭힘. NF 아이들은 카페오레반점, 종양, 의료기기 등 외형적 특이성으로 인해 특히 외모 기반 괴롭힘의 대상이 될 수 있습니다.
+가정에서의 징후: 표정 어두움, 학교 거부, 이유 없는 결석, 몸에 상처/멍, 절망감 표현, 말수 적어짐, 불필요한 물건 요구.
+학교에서의 징후: 활동에서 소외, 혼자만의 공간에 머무름, 단체활동 참여 거부, 잦은 지각/조퇴/결석.
+사이버폭력 징후: 불안하게 휴대폰 확인, 단체 채팅방에서 반복 공격, 온라인 기기 사용료 급증, SNS 분위기 급변, 갑자기 휴대전화 끄기/SNS 탈퇴.
+신고절차: 1.학교에 신고(117전화/직접) → 2.즉시 보호조치(분리/상담/치료) → 3.사안조사(피해/가해학생 면담) → 4.학교폭력대책심의위원회 심의. 학교 처리에 동의하지 않으면 교육지원청 재심, 행정소송, 경찰신고 가능.
+부모 조언: 듣고 지지해주기(아이 이야기를 충분히 들어주세요), 학교와 협력(사건 문서화, 지원 요청, 재발 방지), 권리 이해(학교폭력 관련 법률), 사이버 괴롭힘 대응(디지털 안전 전략, 증거 보존).
+회복: "내 잘못 아님" 반복 확인, 작은 성공 경험 쌓기, 신뢰할 수 있는 어른 1명 이상, 감정 표현 격려, 신체 활동(산책/스트레칭/운동), 비교하지 않기, "회복 중인 사람"으로 인식.
+상담번호: 117학교폭력(24시간), 1388청소년상담(24시간), 경찰182, 탁틴내일02-3141-6191(평일9~18시), 푸른나무1588-9128(평일9~18시), 여성긴급1366(24시간), 법률구조공단132.
+
+[복지혜택] 산정특례(본인부담 10% 경감, 확진후 30일 이내 신청시 소급, 5년마다 재신청), 본인부담상한제(초과분 환급), 희귀질환자의료비(진료비/약제비/보조기기/간병비, 관할보건소), 재난적의료비(연 180일, 5천만원한도, 50~80%, 1577-1000), 장애등록혜택(통행료할인/통신감면/교통감면/세금감면/보조기기/활동지원)이 있습니다.
+
+[연락처] 질병관리청 helpline.kdca.go.kr, 국민건강보험공단 1577-1000, 보건복지상담 129, 학교폭력 117, 청소년상담 1388, 경찰 182, 법률구조공단 132, 여성긴급 1366`;
+
+        // Settings Modal
+        const SettingsModal = ({ isOpen, onClose, onSetApiKey, hasApiKey, mode }) => {
+            const [apiKey, setApiKey] = useState('');
+
+            const handleSave = () => {
+                if (apiKey.trim()) {
+                    onSetApiKey(apiKey);
+                    setApiKey('');
+                    onClose();
+                }
+            };
+
+            if (!isOpen) return null;
+
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-title">⚙️ 설정</div>
+
+                        <div className="modal-description">
+                            현재 모드: <strong>{mode === 'ai' ? '🤖 AI 모드' : '✨ 스마트 키워드 모드'}</strong>
+                        </div>
+
+                        <div className="modal-description">
+                            Gemini API 키를 입력하면 AI 모드로 전환됩니다. AI 모드에서는 Gemini가 더 자연스럽고 맞춤형 답변을 제공합니다.
+                        </div>
+
+                        <input
+                            type="password"
+                            className="modal-input"
+                            placeholder="AIza... (Gemini API 키)"
+                            value={apiKey}
+                            onChange={(e) => setApiKey(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && handleSave()}
+                        />
+
+                        <div className="security-note">
+                            🔒 보안 정보: API 키는 메모리에만 저장되며, 페이지를 새로고침하면 삭제됩니다. 절대로 공유하지 마세요.
+                        </div>
+
+                        {hasApiKey && (
+                            <div style={{ marginBottom: '16px', padding: '8px 12px', backgroundColor: '#F0F8F0', borderRadius: '4px', fontSize: '12px', color: '#4a7c3f' }}>
+                                ✓ API 키가 설정되었습니다. 새 키를 입력하면 업데이트됩니다.
+                            </div>
+                        )}
+
+                        <div className="modal-buttons">
+                            <button className="modal-button modal-button-secondary" onClick={onClose}>
+                                취소
+                            </button>
+                            <button className="modal-button modal-button-primary" onClick={handleSave} disabled={!apiKey.trim()}>
+                                저장
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const ChatBot = () => {
+            const [messages, setMessages] = useState([]);
+            const [inputValue, setInputValue] = useState('');
+            const [isLoading, setIsLoading] = useState(false);
+            const [showWelcome, setShowWelcome] = useState(true);
+            const [apiKey, setApiKey] = useState('AIzaSyBG1lFgAYGztwCpTbkTVLfGga0jRcmfAns');
+            const [showSettings, setShowSettings] = useState(false);
+            const [apiError, setApiError] = useState('');
+            const messagesEndRef = useRef(null);
+
+            const mode = apiKey ? 'ai' : 'keyword';
+
+            const scrollToBottom = () => {
+                messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+            };
+
+            useEffect(() => {
+                scrollToBottom();
+            }, [messages, isLoading]);
+
+            const findRelevantAnswers = (userInput) => {
+                const lowerInput = userInput.toLowerCase();
+                const scores = SMART_QA_BASE.map(entry => {
+                    let score = 0;
+                    for (const keyword of entry.keywords) {
+                        if (lowerInput.includes(keyword)) {
+                            score += keyword.length;
+                        }
+                    }
+                    return { ...entry, score };
+                }).filter(entry => entry.score > 0).sort((a, b) => b.score - a.score);
+
+                return scores.slice(0, 3);
+            };
+
+            const formatBotMessage = (answers) => {
+                if (answers.length === 0) {
+                    return {
+                        text: '죄송합니다. 해당 질문에 대한 정보를 찾지 못했습니다. 다른 방식으로 질문해주시거나 아래의 주제 중 하나를 선택해주세요.',
+                        showCategories: true
+                    };
+                }
+
+                const mainAnswer = answers[0];
+                let response = mainAnswer.a;
+
+                if (mainAnswer.relatedQ && mainAnswer.relatedQ.length > 0) {
+                    response += '\n\n[관련 질문]';
+                }
+
+                return {
+                    text: response,
+                    relatedQuestions: mainAnswer.relatedQ || [],
+                    showCategories: false
+                };
+            };
+
+            const handleSmartMode = async (userMessage) => {
+                const answers = findRelevantAnswers(userMessage);
+                const botResponse = formatBotMessage(answers);
+
+                setMessages(prev => [...prev, {
+                    type: 'bot',
+                    text: botResponse.text,
+                    relatedQuestions: botResponse.relatedQuestions,
+                    showCategories: botResponse.showCategories
+                }]);
+                setIsLoading(false);
+            };
+
+            const handleAIMode = async (userMessage) => {
+                setApiError('');
+
+                try {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            systemInstruction: {
+                                parts: [{ text: `당신은 END NF 신경섬유종증(NF) 안내 챗봇입니다. 따뜻하고 지지적인 태도로 한국어로 답변하세요. 다음의 지식 기반에서만 정보를 찾아 답변하세요. 지식 기반에 없는 내용은 "죄송하지만 현재 제공된 자료에는 해당 정보가 없습니다. END NF 환우회나 담당 의료진에게 문의해주세요."라고 말하세요. 답변은 간결하고 이해하기 쉽게 해주세요.
+
+지식 기반:
+${FULL_KNOWLEDGE_BASE}` }]
+                            },
+                            contents: [
+                                {
+                                    role: 'user',
+                                    parts: [{ text: userMessage }]
+                                }
+                            ],
+                            generationConfig: {
+                                maxOutputTokens: 1024,
+                                temperature: 0.7
+                            }
+                        })
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error?.message || 'API 요청 실패');
+                    }
+
+                    const data = await response.json();
+                    const aiResponse = data.candidates[0].content.parts[0].text;
+
+                    setMessages(prev => [...prev, {
+                        type: 'bot',
+                        text: aiResponse,
+                        isAI: true
+                    }]);
+                } catch (error) {
+                    setApiError(`오류: ${error.message}`);
+                    setMessages(prev => [...prev, {
+                        type: 'bot',
+                        text: `죄송합니다. API 오류가 발생했습니다: ${error.message}`,
+                        isError: true
+                    }]);
+                }
+
+                setIsLoading(false);
+            };
+
+            const handleSendMessage = (e) => {
+                e.preventDefault();
+                if (!inputValue.trim()) return;
+
+                const userMessage = inputValue.trim();
+                setInputValue('');
+                setShowWelcome(false);
+                setMessages(prev => [...prev, { type: 'user', text: userMessage }]);
+                setIsLoading(true);
+
+                setTimeout(() => {
+                    if (mode === 'ai') {
+                        handleAIMode(userMessage);
+                    } else {
+                        handleSmartMode(userMessage);
+                    }
+                }, 300);
+            };
+
+            const handleRelatedQuestion = (question) => {
+                setInputValue(question);
+                setTimeout(() => {
+                    document.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true }));
+                }, 0);
+            };
+
+            const handleCategoryClick = (categoryKey) => {
+                const questionMap = {
+                    diseaseInfo: '신경섬유종증이 뭐예요',
+                    geneticCounseling: 'PGT 착상전 유전자 검사란',
+                    parentGuide: '자녀에게 언제 NF에 대해 말해야 하나요',
+                    schoolLife: '학교 선생님과는 어떻게 소통할까요',
+                    schoolBullying: '학교폭력이 의심되면 어떻게 하나요',
+                    welfare: '의료비 지원이 있나요',
+                    contacts: '질문이 있으면 어디에 문의하나요'
+                };
+
+                setInputValue(questionMap[categoryKey]);
+                setShowWelcome(false);
+                setTimeout(() => {
+                    document.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true }));
+                }, 0);
+            };
+
+            const categories = [
+                { key: 'diseaseInfo', icon: '🏥', label: '질환 정보' },
+                { key: 'geneticCounseling', icon: '🧬', label: '유전/PGT 상담' },
+                { key: 'parentGuide', icon: '👨‍👩‍👧', label: '부모 가이드' },
+                { key: 'schoolLife', icon: '🏫', label: '학교생활 안내' },
+                { key: 'welfare', icon: '💰', label: '복지 혜택' },
+                { key: 'schoolBullying', icon: '💪', label: '학교폭력 대처' },
+                { key: 'contacts', icon: '📞', label: '도움 연락처' }
+            ];
+
+            return (
+                <div className="chatbot-container">
+                    <div className="header">
+                        <div className="header-content">
+                            <div className="logo-area">END NF</div>
+                            <h1>신경섬유종증 안내 챗봇</h1>
+                            <p>신경섬유종증(NF)에 대해 알아보고 필요한 정보와 지원을 받으세요.</p>
+                        </div>
+                        <div className="header-controls">
+                            <button
+                                className="settings-button"
+                                onClick={() => { setMessages([]); setShowWelcome(true); setApiError(''); }}
+                                title="처음으로"
+                                style={{ fontSize: '18px' }}
+                            >
+                                🏠
+                            </button>
+                            <div className="mode-badge">
+                                {mode === 'ai' ? '🤖 AI' : '✨ 스마트'}
+                            </div>
+                            <button
+                                className="settings-button"
+                                onClick={() => setShowSettings(true)}
+                                title="설정"
+                            >
+                                ⚙️
+                            </button>
+                        </div>
+                    </div>
+
+                    <SettingsModal
+                        isOpen={showSettings}
+                        onClose={() => setShowSettings(false)}
+                        onSetApiKey={setApiKey}
+                        hasApiKey={!!apiKey}
+                        mode={mode}
+                    />
+
+                    <div className="chat-area">
+                        {mode === 'ai' && (
+                            <div className="ai-mode-notice">
+                                🤖 AI 모드로 실행 중입니다. Gemini가 자연스러운 답변을 제공합니다.
+                            </div>
+                        )}
+
+                        {showWelcome && (
+                            <div className="welcome-section">
+                                <div className="welcome-icon">🤝</div>
+                                <div className="welcome-title">안녕하세요!</div>
+                                <div className="welcome-text">
+                                    END NF 신경섬유종증 환우회 안내 챗봇입니다. 신경섬유종증에 대해 궁금한 점을 자유롭게 물어보세요.
+                                </div>
+                                <div className="category-label">주요 주제</div>
+                                <div className="categories-grid">
+                                    {categories.map(cat => (
+                                        <button
+                                            key={cat.key}
+                                            className="category-button"
+                                            onClick={() => handleCategoryClick(cat.key)}
+                                        >
+                                            <span className="category-icon">{cat.icon}</span>
+                                            <span>{cat.label}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {messages.map((msg, idx) => (
+                            <div key={idx} className={`message ${msg.type}`}>
+                                <div className="message-bubble">
+                                    <div>{msg.text}</div>
+                                    {msg.relatedQuestions && msg.relatedQuestions.length > 0 && (
+                                        <div className="related-questions">
+                                            {msg.relatedQuestions.map((q, i) => (
+                                                <button
+                                                    key={i}
+                                                    className="related-question-button"
+                                                    onClick={() => handleRelatedQuestion(q)}
+                                                >
+                                                    {q}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                    {msg.showCategories && (
+                                        <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(107, 175, 71, 0.2)' }}>
+                                            <div style={{ fontSize: '12px', marginBottom: '8px', fontWeight: '500' }}>다음 중 선택하세요:</div>
+                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                                                {categories.map(cat => (
+                                                    <button
+                                                        key={cat.key}
+                                                        className="related-question-button"
+                                                        onClick={() => handleCategoryClick(cat.key)}
+                                                    >
+                                                        {cat.icon} {cat.label}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+
+                        {isLoading && (
+                            <div className="message bot">
+                                <div className="typing-indicator">
+                                    <div className="typing-dot"></div>
+                                    <div className="typing-dot"></div>
+                                    <div className="typing-dot"></div>
+                                </div>
+                            </div>
+                        )}
+
+                        {apiError && (
+                            <div className="error-message">
+                                ⚠️ {apiError}
+                            </div>
+                        )}
+
+                        <div ref={messagesEndRef} />
+                    </div>
+
+                    <div className="input-area">
+                        <form onSubmit={handleSendMessage} style={{ display: 'flex', gap: '10px', width: '100%' }}>
+                            <div className="input-wrapper">
+                                <input
+                                    type="text"
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    placeholder="궁금한 내용을 입력하세요..."
+                                    autoFocus
+                                />
+                            </div>
+                            <button type="submit" className="send-button" disabled={isLoading}>
+                                →
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<ChatBot />, document.getElementById('root'));
+    </script>
+</body>
+</html>
